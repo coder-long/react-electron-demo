@@ -1,0 +1,6 @@
+{
+  "presets": [
+    "@babel/preset-env", // babel 启动插件
+    "@babel/preset-react" // 编译react语法插件 // "automatic"
+  ]
+}

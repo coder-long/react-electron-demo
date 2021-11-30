@@ -1,23 +1,26 @@
 import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import { Button } from 'antd';
+import Demo from './components/classCom/Demo';
+import FunComDemo from './components/funCom/FunComDemo';
+import Tmp from './components/classCom/Tmp';
+
+import Home from './components/Home/Home';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Home></Home>
+
+      {/* <Demo>哈哈哈</Demo>
+      <br />
+      <FunComDemo></FunComDemo>
+      <Button>按钮</Button>
+      <Button>按钮1</Button>
+      <Tmp></Tmp> */}
     </div>
   );
 }

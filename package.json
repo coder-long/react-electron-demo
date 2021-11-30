@@ -2,18 +2,38 @@
   "name": "my-react-demo",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
   "dependencies": {
+    "@babel/runtime": "^7.15.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "antd": "^4.16.13",
+    "axios": "^0.21.4",
+    "concurrently": "^6.3.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
+    "react-router": "^6.0.0",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.40.0",
+    "socket.io-client": "^4.3.2",
+    "web-vitals": "^1.1.2",
+    "electron-is-dev": "^2.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "electron .",
+    "pkg": "electron-builder --win --x64",
+    "pkg1": "electron-packager . fukaiitapp --out fukaiitapp --arch=x64 --overwrite",
+    "render": "webpack-dev-server --config webpack.dev.js",
+    "dev": "concurrently \"wait-on http://localhost:3001 && npm run start \"  \"npm run render\"",
+    "build": "webpack --config webpack.prod.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -34,5 +54,50 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.4",
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "compression-webpack-plugin": "^9.0.0",
+    "css-loader": "^6.2.0",
+    "electron": "^15.3.0",
+    "electron-builder": "^22.13.1",
+    "electron-packager": "^15.4.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.2",
+    "less": "^4.1.1",
+    "less-loader": "^10.0.1",
+    "react-hot-loader": "^4.13.0",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
+    "url-loader": "^4.1.1",
+    "wait-on": "^6.0.0",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.2.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "build": {
+    "appId": "com.xxx.app",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    }
   }
 }
