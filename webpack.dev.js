@@ -19,7 +19,14 @@ module.exports = merge(common, {
       directory: path.join(__dirname, 'dist'),
     },
     //端口
-    port: '3001'
+    port: '3001',
+    // proxy: {
+    //   '/socket.io': {
+    //     target: 'http://localhost:3000',
+    //     ws: true,
+    //     changeOrigin: true
+    //   }
+    // },
   },
   //解决打包后错误文件的位置 编译后的代码映射回原始源代码
   devtool: 'inline-source-map',

@@ -9,6 +9,8 @@ import Tmp from './components/classCom/Tmp';
 
 import Home from './components/Home/Home';
 
+import socket from './utils/socketio'
+
 function App() {
   return (
     <div className="App">

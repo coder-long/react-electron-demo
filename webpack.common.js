@@ -103,4 +103,16 @@ module.exports = {
   // externals: {
   //   'electron': 'require("electron")'
   // },
+  //配置socket跨域
+  // devServer: {
+  //   //设置代理
+  //   proxy: {
+  //     '/socket.io': {
+  //       target: 'http://localhost:3000',
+  //       ws: true,
+  //       changeOrigin: true
+  //     }
+  //   },
+  // }
+
 }
