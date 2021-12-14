@@ -26,7 +26,8 @@ export let initFetchState = {
   httpHel: {
     isFetching: false,
     data: {
-      msg:'flkhjsklhflks首付即可舒服了康师傅'
+      msg: 'flkhjsklhflks首付即可舒服了康师傅'
     }
-  }
+  },
+  token: '',
 };

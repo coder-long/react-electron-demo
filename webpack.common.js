@@ -5,7 +5,7 @@ const webpack = require('webpack');
  * 生成的包将被重命名在一个构建中，但是我们的index.html文件仍然会引用旧的名字
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin');//自带插件
-const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin;//自带插件
+const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin;//自带插件 热更新
 //压缩文件资源
 const CompressionPlugin = require('compression-webpack-plugin');
 //在每次执行npm run build时,自动帮我们清理掉dist
@@ -49,13 +49,13 @@ module.exports = {
       //处理jsx
       {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,//排除的目录
+        exclude: /(node_modules)/,//排除的目录
         use: {
           loader: 'babel-loader',
           options: {
             // presets: ['@babel/preset-env'],//转换规则
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['@babel/plugin-transform-runtime'],
+            // plugins: ['@babel/plugin-transform-runtime'],
           }
         }
       },
@@ -100,9 +100,13 @@ module.exports = {
     //可以省略下面的后缀名7
     extensions: ['.js', '.jsx', '.json', '.css']
   },
-  // externals: {
-  //   'electron': 'require("electron")'
-  // },
+  //外部控制者
+  externals: {
+    'electron': require("electron"),
+    //react中找不到fs 模块时 添加下面代码
+    'fs': "commonjs fs",
+  },
+  // target: 'electron-main',
   //配置socket跨域
   // devServer: {
   //   //设置代理

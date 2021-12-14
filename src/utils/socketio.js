@@ -17,7 +17,7 @@ socket.on("connect", () => {
 });
 
 socket.on("disconnect", () => {
-  console.log(socket.id); // undefined
+  console.log('连接断开'); // undefined
   socket.emit('disconnected', "客户端连接状态: disconnect")
 
   if (timer) {

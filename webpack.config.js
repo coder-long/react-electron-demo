@@ -25,7 +25,7 @@ module.exports = {
     //出口文件
     filename: '[name].bundle.js',
     //文件资源
-    // publicPath: 'pubilc',//publicPath 也会在服务器脚本用到 express 手动配置服务 
+    // publicPath: 'pubilc',//publicPath 也会在服务器脚本用到 express 手动配置服务
   },
   /*
   热更新
@@ -78,7 +78,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             // presets: ['@babel/preset-env'],//转换规则
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ['@babel/preset-env', '@babel/preset-react', 'es2015'],
             plugins: ['@babel/plugin-transform-runtime'],
           }
         }

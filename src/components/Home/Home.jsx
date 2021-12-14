@@ -1,11 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as reduxFunc from '../../redux/action'
 import { Router as HashRouter, Switch, Route, Link, Redirect, } from 'react-router-dom';
 import history from '../../router/config'
-import { Layout, Menu, Breadcrumb, Button, Row, Col, Modal } from 'antd';
-
+import { Layout, Menu, message, Button, Row, Col, Modal, Upload } from 'antd';
+import fs from 'fs'
+// import { ipcRenderer } from 'electron';
 import BaseMsg from '../baseMsg/BaseMsg';
 import Log from '../Log/Log';
 import {
@@ -16,7 +17,7 @@ import {
   FullscreenOutlined,
   FullscreenExitOutlined,
   MinusOutlined,
-  BorderOutlined,
+  UploadOutlined,
   CloseOutlined,
   LogoutOutlined,
   MailOutlined,
@@ -30,6 +31,7 @@ import { router } from '../../router';
 import Demo from '../classCom/Demo';
 import FunComDemo from '../funCom/FunComDemo';
 import Tmp from '../classCom/Tmp';
+import { requestPost } from '../../api/request';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -40,6 +42,9 @@ class Home extends Component {
     visible: false,
     isFullScreen: false,
   };
+
+  homeRef = createRef()
+
 
   toggle = () => {
     this.setState({
@@ -54,7 +59,7 @@ class Home extends Component {
   }
 
   handleOk = () => {
-    ipcRenderer.send('quit', { msg: 'App Quit.' })
+    $electron.ipcRenderer.send('quit', { msg: 'App Quit.' })
   }
 
   handleCancel = () => {
@@ -62,9 +67,12 @@ class Home extends Component {
       visible: false
     })
   }
+  mainWindowMinSize = () => {
+    $electron.ipcRenderer.send('minSize', { msg: 'mainWindow Hide.' })
+  }
 
   mainWindowHide = () => {
-    ipcRenderer.send('hide', { msg: 'mainWindow Hide.' })
+    $electron.ipcRenderer.send('hide', { msg: 'mainWindow Hide.' })
   }
 
   fullScreenToggle = (data) => {
@@ -81,8 +89,52 @@ class Home extends Component {
 
   }
 
+  componentDidMount = () => {
+    console.log(this.homeRef.current)
+  }
+
+  handleFileUoload = () => {
+    console.log('handleFileUoload', $electron.dialog);
+    $electron.remote.dialog.showOpenDialog($electron.remote.getCurrentWindow(), { title: '选择文件', filters: ['.js'] }).then(res => {
+      console.log(res)
+      // console.log(canceled, filePaths)
+      let buf = fs.readFileSync(res.filePaths[0]),
+        pathSplit = res.filePaths[0].split('\\'),
+        fileName = pathSplit[pathSplit.length - 1],
+        file = new File([buf], fileName, { type: "text/javascript" }),
+        formData = new FormData();
+
+      console.log(file)
+
+      formData.append('file_upload', file, fileName);
+
+      requestPost('/file/upload', { ...formData }).then(res => {
+        console.log(res)
+      })
+    })
+  }
+
   render() {
     const { collapsed } = this.state;
+    const uploadCfg = {
+      name: 'file_upload',
+      action: 'http://127.0.0.1:3000/file/upload',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange(info) {
+        console.log(info)
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    }
+
     return (
       <HashRouter history={history}>
         <Layout id='components-layout-demo-custom-trigger' style={{ height: '100vh' }}>
@@ -127,7 +179,7 @@ class Home extends Component {
                 onClick: this.toggle,
               })}
               <div className="on-off-btn">
-                <span>
+                <span onClick={this.mainWindowMinSize}>
                   <MinusOutlined />
                 </span>
                 {React.createElement(this.state.isFullScreen ? FullscreenExitOutlined : FullscreenOutlined, {
@@ -163,9 +215,14 @@ class Home extends Component {
                 </Route>
                 <Route path='/ddd'>
                   dd
+                  <Button onClick={this.handleFileUoload}>electron弹框</Button>
+                  <Upload {...uploadCfg}>
+                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                  </Upload>
                 </Route>
                 <Route path='/home'>
                   home
+                  <div id='home' ref={this.homeRef}></div>
                 </Route>
                 <Redirect from='/' to='/home'></Redirect>
               </Switch>
