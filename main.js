@@ -93,6 +93,7 @@ function createWindow() {
 
   // 打开开发者工具
   mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools({ mode: "bottom" });
 
   // 关闭window时触发下列事件.
   // mainWindow.on("closed", function () {

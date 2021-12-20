@@ -81,9 +81,9 @@ class Home extends Component {
     const { isFullScreen } = this.state;
 
     if (!isFullScreen) {
-      ipcRenderer.send('win-full-screen', { msg: 'full screen' });
+      $electron.ipcRenderer.send('win-full-screen', { msg: 'full screen' });
     } else {
-      ipcRenderer.send('cancel-win-full-screen', { msg: 'full screen' });
+      $electron.ipcRenderer.send('cancel-win-full-screen', { msg: 'full screen' });
     }
 
     this.setState({ isFullScreen: !isFullScreen })

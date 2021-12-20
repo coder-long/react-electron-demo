@@ -9,96 +9,31 @@
 
 import React, { useState, useEffect, Fragment } from "react";
 import { Form, Input, Button, Card } from 'antd';
+import { formLogin, formRegister, tabList, formItemLayout } from './loginCfg'
+import { mapInput } from "../../config/map";
 
 
-//表单输入框映射
-function mapInput(inpType) {
-  switch (inpType) {
-    case 'text':
-      return <Input />
-    case 'password':
-      return <Input.Password />
-    case 'textarea':
-      return <Input.TextArea />
-    default:
-      return <Input />
-  }
-}
+const onFinishFailed = (errorInfo, type) => {
+  console.log('Failed:', errorInfo);
+};
+const onFinish = (values, type) => {
+  console.log('Success:', values);
+};
 
-
-const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 14 },
-}
-
-//登录表单
-const formLogin = [
-  {
-    label: '用户名',
-    name: 'username',
-    inpType: 'text',
-    rules: [{ required: true, message: '请输入用户名！' }]
-  },
-  {
-    label: "密码",
-    name: "password",
-    inpType: "password",
-  }
-];
-//注册表单
-const formRegister = [
-  {
-    label: '用户名',
-    name: 'username',
-    inpType: 'text',
-  },
-  {
-    label: "密码",
-    name: "password",
-    inpType: "password",
-  },
-  {
-    label: "确认密码",
-    name: "re_password",
-    inpType: "password",
-  }
-];
-
-function Login(props) {
-  const handleLogin = () => {
-    console.log('login')
-  }
-  const onFinishFailed = (errorInfo, type) => {
-    console.log('Failed:', errorInfo);
-  };
-  const onFinish = (values, type) => {
-    console.log('Success:', values, aa);
-  };
-
-  const tabList = [
-    {
-      key: 'login',
-      tab: 'login',
-    },
-    {
-      key: 'register',
-      tab: 'register',
-    },
-  ]
-
-  const contentList = {
-    login: <Form
+//登录注册表单
+const log_reg_form = ({ dataArr = [], type = '' }) => {
+  return (
+    <Form
       name="basic"
       title=''
       {...formItemLayout}
       initialValues={{ remember: true }}
-      onFinish={(values) => onFinish(values, 'login')}
-      onFinishFailed={(errorInfo) => onFinishFailed(errorInfo, "login")}
+      onFinish={(values) => onFinish(values, type)}
+      onFinishFailed={(errorInfo) => onFinishFailed(errorInfo, type)}
       autoComplete="off"
       layout={'horizontal'}>
-
       {
-        formLogin.map((item, index) => {
+        dataArr.map((item, index) => {
           return <Form.Item key={item.label + index} label={item.label} name={item.name} rules={item.rules || null}>
             {
               mapInput(item.inpType)
@@ -109,30 +44,20 @@ function Login(props) {
       <Form.Item>
         <Button type="primary" htmlType="submit" >登录</Button>
       </Form.Item>
-    </Form>,
-    register: <Form
-      name="basic"
-      title=''
-      {...formItemLayout}
-      initialValues={{ remember: true }}
-      onFinish={(values) => onFinish(values, 'register')}
-      onFinishFailed={(errorInfo) => onFinishFailed(errorInfo, 'register')}
-      autoComplete="off"
-      layout={'horizontal'}>
-
-      {
-        formRegister.map((item, index) => {
-          return <Form.Item key={item.label + index} label={item.label} name={item.name}>
-            {
-              mapInput(item.inpType)
-            }
-          </Form.Item>
-        })
-      }
-      <Form.Item>
-        <Button type="primary" htmlType="submit" >注册</Button>
-      </Form.Item>
     </Form>
+  )
+}
+
+
+
+function Login(props) {
+  const handleLogin = () => {
+    console.log('login')
+  }
+
+  const contentList = {
+    login: log_reg_form({ formLogin, 'login'}),
+    register: log_reg_form({ formRegister, 'register'}),
   }
 
   const [activeTabKey1, setActiveTabKey] = useState('login');
@@ -156,8 +81,6 @@ function Login(props) {
         {contentList[activeTabKey1]}
       </Card>
     </Fragment>
-
-
   )
 
 }
