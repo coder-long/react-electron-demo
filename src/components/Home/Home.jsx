@@ -31,6 +31,7 @@ import { router } from '../../router';
 import Demo from '../classCom/Demo';
 import FunComDemo from '../funCom/FunComDemo';
 import Tmp from '../classCom/Tmp';
+import Login from '../Login/Login';
 import { requestPost } from '../../api/request';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -161,7 +162,10 @@ class Home extends Component {
               <Menu.Item key="4" icon={<PieChartOutlined />}>
                 <Link to={'/ddd'}>音乐</Link>
               </Menu.Item>
-              <Menu.Item key="5" icon={<LogoutOutlined />}>
+              <Menu.Item key="5" icon={<PieChartOutlined />}>
+                <Link to={'/login'}>登录模块</Link>
+              </Menu.Item>
+              <Menu.Item key="6" icon={<LogoutOutlined />}>
                 <span onClick={this.showModal}>退出应用</span>
                 <Modal visible={this.state.visible}
                   title="是否退出应用"
@@ -219,6 +223,9 @@ class Home extends Component {
                   <Upload {...uploadCfg}>
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
                   </Upload>
+                </Route>
+                <Route path='/login'>
+                  <Login />
                 </Route>
                 <Route path='/home'>
                   home
