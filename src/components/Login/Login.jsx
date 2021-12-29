@@ -1,66 +1,109 @@
+import React, { useState, useEffect, Fragment } from "react";
+import { useDispatch, useSelector } from "react-redux";//函数组件中使用store
+import store from "../../redux/store";
+import * as reduxFunc from '../../redux/action'
+import { bindActionCreators } from "redux";
+import { mapInput } from "../../config/map";
+import { requestPost, URL } from "../../api/request";
+import { Form, Input, Button, Card, message } from 'antd';
+import {
+  formLogin,
+  formRegister,
+  tabList,
+  formItemLayout,
+  LOGIN,
+  REGISTER,
+} from './loginCfg'
+
 /**
  * 登录模块
  *
- *
- *
- * cp -rf /tmp/sf_temp_cache/local_setup_dp/dataprovider_get/20211214/_api_domains_edit-con-apac-jbaby-in-en.jnjnab5d5-dev2.jjc-devops.com.cache /tmp/sf_temp_cache/local_setup_dp/dataprovider_get/20211214/_api_domains_edit-con-apac-stayfree2-in-en.jnjnab5d5-dev2.jjc-devops.com.cache
- * sf local_setup_dp edit-con-apac-stayfree2-in-en.jnjnab5d5-dev2.jjc-devops.com dp true true
-*/
-
-import React, { useState, useEffect, Fragment } from "react";
-import { Form, Input, Button, Card } from 'antd';
-import { formLogin, formRegister, tabList, formItemLayout } from './loginCfg'
-import { mapInput } from "../../config/map";
-
-
-const onFinishFailed = (errorInfo, type) => {
-  console.log('Failed:', errorInfo);
-};
-const onFinish = (values, type) => {
-  console.log('Success:', values);
-};
-
-//登录注册表单
-const log_reg_form = ({ dataArr = [], type = '' }) => {
-  return (
-    <Form
-      name="basic"
-      title=''
-      {...formItemLayout}
-      initialValues={{ remember: true }}
-      onFinish={(values) => onFinish(values, type)}
-      onFinishFailed={(errorInfo) => onFinishFailed(errorInfo, type)}
-      autoComplete="off"
-      layout={'horizontal'}>
-      {
-        dataArr.map((item, index) => {
-          return <Form.Item key={item.label + index} label={item.label} name={item.name} rules={item.rules || null}>
-            {
-              mapInput(item.inpType)
-            }
-          </Form.Item>
-        })
-      }
-      <Form.Item>
-        <Button type="primary" htmlType="submit" >登录</Button>
-      </Form.Item>
-    </Form>
-  )
-}
-
-
-
+ */
 function Login(props) {
-  const handleLogin = () => {
-    console.log('login')
+
+  //函数组件中获取store中的值
+  const current = useSelector((state) => {
+    return state
+  })
+
+  let socketConnectedState = current.staticData.socketData.socketConnectedState;
+
+  console.log(current);
+
+  const onFinishFailed = (errorInfo, type) => {
+    console.log('Failed:', errorInfo, type);
+  };
+
+  const onFinish = async (values, type) => {
+    console.log('Success:', values, type);
+
+    if (type === LOGIN) {
+      if (!socketConnectedState) {
+        message.warning('服务未连接！');
+        return
+      }
+      const resLogin = await requestPost(URL.login, { userInfo: { ...values } });
+      console.log(resLogin)
+    } else {
+      const resRegister = await requestPost(URL.register, { userInfo: { ...values } });
+      console.log(resRegister);
+
+    }
+  };
+
+  //登录注册表单
+  const log_reg_form = ({ dataArr = [], type = '' }) => {
+    return (
+      <Form
+        name="basic"
+        title=''
+        {...formItemLayout}
+        initialValues={{ remember: true }}
+        onFinish={(values) => onFinish(values, type)}
+        onFinishFailed={(errorInfo) => onFinishFailed(errorInfo, type)}
+        autoComplete="off"
+        layout={'horizontal'}>
+        {
+          dataArr.map((item, index) => {
+            return <Form.Item key={item.label + index} label={item.label} name={item.name} rules={item.rules || null}>
+              {
+                mapInput(item.inpType, item.disabled)
+              }
+            </Form.Item>
+          })
+        }
+        <Form.Item>
+          <Button type="primary" htmlType="submit" disabled={!socketConnectedState}>{type}</Button>
+        </Form.Item>
+      </Form>
+    )
   }
 
-  const contentList = {
-    login: log_reg_form({ formLogin, 'login'}),
-    register: log_reg_form({ formRegister, 'register'}),
-  }
+  let [contentList, setContentList] = useState({
+    login: log_reg_form({ dataArr: formLogin, type: LOGIN }),
+    register: log_reg_form({ dataArr: formRegister, type: REGISTER }),
+  })
 
-  const [activeTabKey1, setActiveTabKey] = useState('login');
+
+  useEffect(() => {
+
+    formLogin.forEach(item => {
+      item.disabled = !socketConnectedState
+    })
+
+    formRegister.forEach(item => {
+      item.disabled = !socketConnectedState
+    })
+
+    setContentList({
+      login: log_reg_form({ dataArr: formLogin, type: LOGIN }),
+      register: log_reg_form({ dataArr: formRegister, type: REGISTER }),
+    })
+    //函数组件中监听store中值更新
+  }, [current.staticData.socketData.socketConnectedState])
+
+
+  const [activeTabKey1, setActiveTabKey] = useState(LOGIN);
   const onTab1Change = key => {
     console.log(key)
     setActiveTabKey(key);
@@ -68,11 +111,8 @@ function Login(props) {
 
   return (
     <Fragment>
-
       <Card
         style={{ width: '100%' }}
-        // title="Card title"
-        // extra={<a href="#">More</a>}
         tabList={tabList}
         activeTabKey={activeTabKey1}
         onTabChange={key => {
@@ -83,6 +123,10 @@ function Login(props) {
     </Fragment>
   )
 
+  const dispatch = useDispatch();
+  const httpQueryData = bindActionCreators(reduxFunc.httpQueryData, dispatch);
+  const loadData = bindActionCreators(reduxFunc.loadData, dispatch);
+
 }
 
-export default Login
+export default Login;

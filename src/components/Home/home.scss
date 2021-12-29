@@ -41,3 +41,14 @@ $clolr1890ff: #1890ff;
     color: $clolr1890ff;
   }
 }
+
+
+.Tbcharts{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}

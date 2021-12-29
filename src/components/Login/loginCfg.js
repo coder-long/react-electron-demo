@@ -1,49 +1,85 @@
+const LOGIN = 'login';
+const REGISTER = 'register';
+
 //登录表单
-export const formLogin = [
+const formLogin = [
   {
     label: '用户名',
-    name: 'username',
+    name: 'login_username',
     inpType: 'text',
-    rules: [{ required: true, message: '请输入用户名！' }]
+    disabled: false,
+    rules: [{ required: true, message: '请输入用户名...' }],
   },
   {
     label: "密码",
-    name: "password",
+    name: "login_password",
     inpType: "password",
-  }
-];
-//注册表单
-export const formRegister = [
-  {
-    label: '用户名',
-    name: 'username',
-    inpType: 'text',
-  },
-  {
-    label: "密码",
-    name: "password",
-    inpType: "password",
-  },
-  {
-    label: "确认密码",
-    name: "re_password",
-    inpType: "password",
+    disabled: false,
+    rules: [{ required: true, message: '请输入密码...' }],
   }
 ];
 
-export const formItemLayout = {
+//注册表单
+const formRegister = [
+  {
+    label: '用户名',
+    name: 'register_username',
+    inpType: 'text',
+    disabled: false,
+    rules: [{ required: true, message: '请输入用户名...' }],
+  },
+  {
+    label: "密码",
+    name: "register_password",
+    inpType: "password",
+    disabled: false,
+    rules: [
+      {
+        required: true,
+        message: '请输入密码..',
+      }
+    ]
+  },
+  {
+    label: "确认密码",
+    name: "register_rep_password",
+    inpType: "password",
+    disabled: false,
+    rules: [
+      {
+        required: true,
+        message: '请输入密码..',
+        validator: (rule, value) => {
+          console.log(rule, value)
+        }
+      }
+    ]
+  }
+];
+
+const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 14 },
 }
 
+
 //tab
-export const tabList = [
+const tabList = [
   {
-    key: 'login',
-    tab: 'login',
+    key: LOGIN,
+    tab: LOGIN,
   },
   {
-    key: 'register',
-    tab: 'register',
+    key: REGISTER,
+    tab: REGISTER,
   },
 ];
+
+export {
+  LOGIN,
+  REGISTER,
+  formLogin,
+  formRegister,
+  formItemLayout,
+  tabList,
+}

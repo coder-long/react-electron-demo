@@ -18,7 +18,10 @@ export let initialState = {
     address: '四川泸州',
     frendId: 'hl001',
   },
-  demo: []
+  demo: [],
+  socketData: {
+    socketConnectedState: false,
+  }
 };
 
 //请求到的数据

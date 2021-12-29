@@ -7,8 +7,8 @@ import history from '../../router/config'
 import { Layout, Menu, message, Button, Row, Col, Modal, Upload } from 'antd';
 import fs from 'fs'
 // import { ipcRenderer } from 'electron';
-import BaseMsg from '../baseMsg/BaseMsg';
-import Log from '../Log/Log';
+import TbCharts from './TbCharts'
+import Jiujia from '../JiuJia/Jiujia';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -31,7 +31,7 @@ import { router } from '../../router';
 import Demo from '../classCom/Demo';
 import FunComDemo from '../funCom/FunComDemo';
 import Tmp from '../classCom/Tmp';
-import Login from '../Login/Login';
+import Login from '../Login/Login.jsx';
 import { requestPost } from '../../api/request';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -92,6 +92,18 @@ class Home extends Component {
 
   componentDidMount = () => {
     console.log(this.homeRef.current)
+    console.log(this.props)
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    console.log(prevProps, prevState)
+    if (this.props.socketData.socketConnectedState !== prevProps.socketData.socketConnectedState) {
+      if (this.props.socketData.socketConnectedState) {
+        message.success('服务已连接。')
+      } else {
+        message.error('服务已断开。')
+      }
+    }
   }
 
   handleFileUoload = () => {
@@ -204,15 +216,7 @@ class Home extends Component {
             >
               <Switch>
                 <Route path='/about'>
-                  <Row>
-                    <Col span={11}>
-                      <BaseMsg />
-                    </Col>
-                    <Col span={2}></Col>
-                    <Col span={11}>
-                      <Log />
-                    </Col>
-                  </Row>
+                  <Jiujia />
                 </Route>
                 <Route path='/user'>
                   cc
@@ -230,6 +234,7 @@ class Home extends Component {
                 <Route path='/home'>
                   home
                   <div id='home' ref={this.homeRef}></div>
+                  <TbCharts />
                 </Route>
                 <Redirect from='/' to='/home'></Redirect>
               </Switch>
@@ -243,9 +248,9 @@ class Home extends Component {
 
 //映射到store
 const mapStateToProps = (state) => {
-  const { hel = {}, tmpData = {} } = state.staticData;//静态数据
+  const { hel = {}, tmpData = {}, socketData = {} } = state.staticData;//静态数据
   const { httpHel = {} } = state.httpData;//http数据
-  return { hel, httpHel, tmpData }
+  return { hel, httpHel, tmpData, socketData }
 }
 
 const mapDispatchToProps = (dispatch, props) => {//props 父组件传过来的参数

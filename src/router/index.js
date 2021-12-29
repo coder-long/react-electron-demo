@@ -2,7 +2,7 @@
 
 
 
-export const router = [
+export const routes = [
   {
     path: '/',
     component: '',
