@@ -9,6 +9,7 @@ import fs from 'fs'
 // import { ipcRenderer } from 'electron';
 import TbCharts from './TbCharts'
 import Jiujia from '../JiuJia/Jiujia';
+import { HeaderMenu, MyRouter } from '../../router';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -93,6 +94,7 @@ class Home extends Component {
   componentDidMount = () => {
     console.log(this.homeRef.current)
     console.log(this.props)
+
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -153,7 +155,7 @@ class Home extends Component {
         <Layout id='components-layout-demo-custom-trigger' style={{ height: '100vh' }}>
           <Sider trigger={null} collapsible collapsed={this.state.collapsed} theme='light'>
             <div className="logo" style={{ WebkitAppRegion: "drag" }}>logo</div>
-            <Menu
+            {/* <Menu
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               mode="inline"
@@ -185,7 +187,9 @@ class Home extends Component {
                   onCancel={this.handleCancel}>是否退出应用</Modal>
 
               </Menu.Item>
-            </Menu>
+            </Menu> */}
+            <HeaderMenu />
+
           </Sider>
           <Layout className="site-layout">
             <Header className="site-layout-background-header" style={{ padding: 0, textAlign: 'left', WebkitAppRegion: "drag" }}>
@@ -214,7 +218,9 @@ class Home extends Component {
                 minHeight: 280,
               }}
             >
-              <Switch>
+              <MyRouter />
+
+              {/* <Switch>
                 <Route path='/about'>
                   <Jiujia />
                 </Route>
@@ -237,7 +243,9 @@ class Home extends Component {
                   <TbCharts />
                 </Route>
                 <Redirect from='/' to='/home'></Redirect>
-              </Switch>
+              </Switch> */}
+
+
             </Content>
           </Layout>
         </Layout>

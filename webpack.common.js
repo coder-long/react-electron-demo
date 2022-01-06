@@ -1,4 +1,5 @@
 const path = require('path');
+const glob = require('glob');
 const webpack = require('webpack');
 /** HtmlWebpackPlugin
  * 如果我们更改了我们的一个入口起点的名称，甚至添加了一个新的名称，会发生什么？
@@ -6,11 +7,58 @@ const webpack = require('webpack');
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin');//自带插件
 const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin;//自带插件 热更新
+const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 //压缩文件资源
 const CompressionPlugin = require('compression-webpack-plugin');
 //在每次执行npm run build时,自动帮我们清理掉dist
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
+// function buildEntriesAndHTML() {
+//   // 用来构建entry
+//   const result = glob.sync('src/index.js');
+//   const config = {
+//     hash: false,
+//     inject: true
+//   };
+//   const entries = {};
+//   const htmls = [];
+
+//   console.log(result);
+
+//   result.forEach(item => {
+//     const one = path.parse(item);
+//     outputfile = one.dir.split('/').slice(-1)[0];
+//     entries[outputfile] = './' + item;
+//     const filename = {
+//       'development': './' + outputfile + '/index.html',
+//       'production': './' + outputfile + '/' + outputfile + '.html',
+//     }
+//     htmls.push(
+//       new HtmlWebpackPlugin({
+//         ...config,
+//         template: './' + one.dir + '/index.html',
+//         filename: filename[process.env.NODE_ENV], // 输出html文件的路径
+//         title: outputfile + '模版',
+//         chunks: [outputfile]
+//       })
+//     );
+//   });
+//   if (htmls.length > 0) {
+//     htmls.push(new HtmlWebpackInlineSourcePlugin());
+//   }
+//   console.log(result);
+//   console.log(entries, htmls)
+//   return {
+//     entries,
+//     htmls
+//   };
+// }
+
+// buildEntriesAndHTML()
+
+/**
+ * https://segmentfault.com/q/1010000019996398 webpack打包多页面如何静态资源单独打包呢？
+ */
 
 module.exports = {
   //入口文件
@@ -20,9 +68,9 @@ module.exports = {
     //出口目录
     path: path.resolve(__dirname, 'dist'),
     //出口文件
-    filename: '[name].bundle.js',
+    filename: 'render.js',
     //文件资源
-    // publicPath: 'pubilc',//publicPath 也会在服务器脚本用到 express 手动配置服务
+    // publicPath: '/',//publicPath 也会在服务器脚本用到 express 手动配置服务
   },
   //配置loader
   module: {
@@ -30,7 +78,29 @@ module.exports = {
       //处理css文件
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       //处理less文件
-      { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              /**
+               * 解决less报错 错误信息 https://github.com/ant-design/ant-motion/issues/44
+               * 解决方式 https://juejin.cn/post/6844904160819691527
+               */
+              lessOptions: {
+                javascriptEnabled: true
+              }
+            }
+          }
+        ],
+      },
       //处理sass文件
       { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
       //处理文件-图片
@@ -81,7 +151,7 @@ module.exports = {
       inject: 'body',
     }),
     new CleanWebpackPlugin(),
-    new HotModuleReplacementPlugin(),
+    // new HotModuleReplacementPlugin(),
     // gzip压缩配置
     new CompressionPlugin({
       // 匹配文件名

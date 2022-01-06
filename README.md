@@ -20,7 +20,7 @@ npm run dev
   ```
 
 #### 函数组件中使用store数据 react-redux
-[函数组价使用store数据]https://www.cnblogs.com/cazj/p/15186278.html
+- [函数组价使用store数据](https://www.cnblogs.com/cazj/p/15186278.html)
   ```
     const current = useSelector((state) => {
     return state
@@ -28,7 +28,7 @@ npm run dev
 
   console.log(current);
   ```
-#### 心跳检测机制
+#### [心跳检测机制](http://yeyingxian.blog.163.com/blog/static/3447124201441462613517/)
 - 通常做法
 - 客户端发送心跳 ，服务端收到后回复
 - 客户端设施一个定时器，测量发出心跳后多久没后回复就认为连接断开
@@ -103,6 +103,80 @@ npm run dev
     }
   ```
 
+#### elelctron-packager
+- 打包只是打包成各个平台下可执行文件，并不是安装包
+
+#### electron-builder 可以打包成安装包
+- [Electron-builder打包详解](https://www.jianshu.com/p/4699b825d285?from=timeline)
+  package.json中完整配置
+  ```
+  "build": {
+    "productName":"xxxx",//项目名 这也是生成的exe文件的前缀名
+    "appId": "com.leon.xxxxx",//包名
+    "copyright":"xxxx",//版权  信息
+    "directories": { // 输出文件夹
+      "output": "build"
+    },
+    "nsis": {
+      "oneClick": false, // 是否一键安装
+      "allowElevation": true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
+      "allowToChangeInstallationDirectory": true, // 允许修改安装目录
+      "installerIcon": "./build/icons/aaa.ico",// 安装图标
+      "uninstallerIcon": "./build/icons/bbb.ico",//卸载图标
+      "installerHeaderIcon": "./build/icons/aaa.ico", // 安装时头部图标
+      "createDesktopShortcut": true, // 创建桌面图标
+      "createStartMenuShortcut": true,// 创建开始菜单图标
+      "shortcutName": "xxxx", // 图标名称
+      "include": "build/script/installer.nsh", // 包含的自定义nsis脚本
+    },
+    "publish": [
+      {
+        "provider": "generic", // 服务器提供商 也可以是GitHub等等
+        "url": "http://xxxxx/" // 服务器地址
+      }
+    ],
+    "files": [
+      "dist/electron/**/*"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "build/icons/icon.icns"
+    },
+    "win": {
+      "icon": "build/icons/aims.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "build/icons"
+    }
+  }
+  ```
+- [打包失败  Application entry file “build/electron.js“](https://blog.csdn.net/weixin_42826294/article/details/113592301)
+
+### 项目打包
+- npm run build
+- npm run pkg1
 
 
 

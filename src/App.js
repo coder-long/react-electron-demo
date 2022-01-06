@@ -1,6 +1,7 @@
 import logo from './logo.svg';
+import 'antd/dist/antd.less'; // or 'antd/dist/antd.less'
+import './theme/index.less';
 import './App.css';
-import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 import React, { useState, useEffect, Fragment } from "react";
 // import { useDispatch, useSelector } from "react-redux";//函数组件中使用store
@@ -14,7 +15,7 @@ import Tmp from './components/classCom/Tmp';
 
 import Home from './components/Home/Home';
 
-// import socket from './utils/socketio'
+import socket from './utils/socketio'
 
 function App() {
   // const dispatch = useDispatch();

@@ -1,5 +1,42 @@
 @btn-color:aqua;
+@scrollbarTrack:  rgb(255, 255, 255);
+@scrollbarThumbColor:  #E8E8E8;
+@scrollbarShadow:rgba(0,0,0,.3);
 
 .ant-btn{
   color: @btn-color;
+}
+
+/*css主要部分的样式*/
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+
+::-webkit-scrollbar {
+  height: 8px; /*对水平流动条有效*/
+  width: 8px; /*对垂直流动条有效*/
+  }
+
+/*定义滚动条的轨道颜色、内阴影及圆角*/
+::-webkit-scrollbar-track{
+  background-color: @scrollbarTrack;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px @scrollbarShadow
+}
+
+
+/*定义滑块颜色、内阴影及圆角*/
+::-webkit-scrollbar-thumb{
+  background-color: @scrollbarThumbColor;
+  border-radius: 7px;
+  -webkit-box-shadow: inset 0 0 6px @scrollbarShadow
+}
+
+/*定义两端按钮的样式*/
+::-webkit-scrollbar-button {
+  background-color: transparent;
+  height: 5px;
+}
+
+/*定义右下角汇合处的样式*/
+::-webkit-scrollbar-corner {
+  background:khaki;
 }
