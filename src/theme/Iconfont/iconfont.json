@@ -1,0 +1,30 @@
+{
+  "id": "3148156",
+  "name": "demo",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "18811047",
+      "name": "最大化",
+      "font_class": "zuidahua1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "12869148",
+      "name": "向下还原",
+      "font_class": "xiangxiahuanyuan",
+      "unicode": "e916",
+      "unicode_decimal": 59670
+    },
+    {
+      "icon_id": "18311585",
+      "name": "最大化 细",
+      "font_class": "zuidahuaxi",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    }
+  ]
+}

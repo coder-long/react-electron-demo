@@ -47,8 +47,8 @@ function createWindow() {
 
   // 创建浏览器窗口
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 800,//800
+    height: 400,//400
     minHeight: 400,
     minWidth: 300,
     safeDialogs: true,//对话框保护
@@ -160,6 +160,17 @@ ipcMain.on('win-full-screen', (e, arg) => {
 ipcMain.on('cancel-win-full-screen', (e, arg) => {
   mainWindow.unmaximize()
   console.log(arg)
+})
+//监听登录变化
+ipcMain.on('isLogin', (event, arg) => {
+  console.log(arg)
+  if (Boolean(arg) && arg) {
+    mainWindow.setContentSize(800, 400)
+    mainWindow.setResizable(false)
+  } else {
+    mainWindow.setContentSize(1200, 800)
+    mainWindow.setResizable(true)
+  }
 })
 
 module.exports = mainWindow

@@ -4,7 +4,7 @@ import { Menu, Modal, Row, Col, Button, Card, Avatar } from "antd";
 import { StarOutlined, StarFilled, HeartOutlined, LogoutOutlined, ExclamationCircleOutlined, UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons';
 import Jiujia from "../components/JiuJia/Jiujia";
 import TbCharts from "../components/Home/TbCharts";
-import Login from "../components/Login/Login";
+import Login from "../pages/Login/Login";
 import Music from "../pages/Music/Music";
 import { UploadCom } from "../components/funCom";
 
@@ -130,7 +130,6 @@ export function MyRouter() {
         route.map(item => {
           return <Route key={item.path} exact={item.exact} path={item.path} component={item.component} />
         })
-
       }
       {/* <Route path='/404' component={Notfound} /> */}
       <Redirect from='/' to="home" />
@@ -173,7 +172,7 @@ export function HeaderMenu() {
 
   return (
     <Menu
-      defaultSelectedKeys={['/home']}
+      defaultSelectedKeys={['主页']}
       defaultOpenKeys={['sub1']}
       mode="inline"
       onClick={onClick}

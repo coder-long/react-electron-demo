@@ -32,7 +32,7 @@ import { router } from '../../router';
 import Demo from '../classCom/Demo';
 import FunComDemo from '../funCom/FunComDemo';
 import Tmp from '../classCom/Tmp';
-import Login from '../Login/Login.jsx';
+import Login from '../../pages/Login/Login.jsx';
 import { requestPost } from '../../api/request';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -202,9 +202,11 @@ class Home extends Component {
                 <span onClick={this.mainWindowMinSize}>
                   <MinusOutlined />
                 </span>
-                {React.createElement(this.state.isFullScreen ? FullscreenExitOutlined : FullscreenOutlined, {
-                  onClick: this.fullScreenToggle,
-                })}
+                <span onClick={this.fullScreenToggle}>
+                  {
+                    this.state.isFullScreen ? <span className="iconfont">&#xe916;</span> : <span className="iconfont">&#xe600;</span>
+                  }
+                </span>
                 <span onClick={this.mainWindowHide}>
                   <CloseOutlined />
                 </span>

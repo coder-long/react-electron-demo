@@ -115,7 +115,7 @@ module.exports = {
         }
       },
       // 处理字体图标
-      { test: /\.(eot|svg|ttf|woff|woff2)$/, use: ["url-loader"] },
+      { test: /\.(eot|svg|ttf|woff|woff2)$/, use: ["file-loader"] },
       //处理jsx
       {
         test: /\.(js|jsx)$/,
@@ -165,7 +165,8 @@ module.exports = {
   resolve: {
     alias: {
       //@别名写法
-      "@": path.resolve(__dirname, "src")
+      "@": path.resolve(__dirname, "src"),
+      "@static": path.resolve(__dirname, 'static'),
     },
     //可以省略下面的后缀名7
     extensions: ['.js', '.jsx', '.json', '.css']

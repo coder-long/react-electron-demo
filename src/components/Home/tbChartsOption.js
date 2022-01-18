@@ -71,7 +71,97 @@ let option1 = {
   ]
 };
 
+const option2 = {
+  title: {
+    text: 'Bar Chart with Negative Value'
+  },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  grid: {
+    top: 80,
+    bottom: 30
+  },
+  xAxis: {
+    type: 'value',
+    position: 'top',
+    splitLine: {
+      lineStyle: {
+        type: 'dashed'
+      }
+    }
+  },
+  yAxis: {
+    type: 'category',
+    axisLine: { show: false },
+    axisLabel: {
+      show: true,
+      color: 'red',
+      formatter: function (value, index) {
+        console.log(value, index)
+        if (value.split() === 'ten') {
+          return `{a|${value}}`
+        } else {
+          return `{b|${value}{}}`
+        }
+      },
+      rich: {
+        a: {
+          color: 'red',
+        },
+        b: {
+          color: 'blue'
+        }
+      }
+    },
+    axisTick: { show: false },
+    splitLine: { show: false },
+    data: [
+      'ten',
+      'nine',
+      'eight',
+      'seven',
+      {
+        value: 'six',
+        textStyle: {
+          color: 'red'
+        }
+      },
+      // 'five',
+      // 'four',
+      // 'three',
+      // 'two',
+      // {
+      //   value: 'one',
+      //   textColor: 'red'
+      // }
+    ]
+  },
+  series: [
+    {
+      name: 'Cost',
+      type: 'bar',
+      stack: 'Total',
+      label: {
+        show: true,
+        formatter: '{b}%'
+      },
+      data: [
+        { value: 0.07, label: { color: 'yellow', align: 'right' }, itemStyle: { textStyle: { color: 'yellow' } } },
+        { value: 0.09, label: 'right' },
+        { value: 0.23, label: 'right' },
+        { value: 0.17, label: 'right' },
+        { value: 0.36, label: 'right' },
+      ]
+    }
+  ]
+};
+
 export {
   tbChartsOption,
-  option1
+  option1,
+  option2
 }
