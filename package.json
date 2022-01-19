@@ -72,6 +72,7 @@
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^4.0.0",
     "compression-webpack-plugin": "^9.0.0",
+    "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.2.0",
     "electron": "^15.3.0",
     "electron-builder": "^22.13.1",

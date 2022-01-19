@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as reduxFunc from '../../redux/action'
-import { addTodo } from '@/redux/action'
+import { addTodo } from '@src/redux/action'
 
 class Child extends Component {
   componentDidMount = () => {

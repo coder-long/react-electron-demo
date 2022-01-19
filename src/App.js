@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import 'antd/dist/antd.less'; // or 'antd/dist/antd.less'
 import './theme/index.less';
 import './App.css';
-import './theme/Iconfont/iconfont.css'
+// import '@static/Iconfont/iconfont.css'
 
 import React, { useState, useEffect, Fragment } from "react";
 // import { useDispatch, useSelector } from "react-redux";//函数组件中使用store
@@ -32,7 +32,7 @@ function App() {
   /*
    * 是否需要登录 默认需要登录
    */
-  const [isLogin, setLogin] = useState(true);
+  const [isLogin, setLogin] = useState(false);
 
   useEffect(() => {
     console.log(11, isLogin)

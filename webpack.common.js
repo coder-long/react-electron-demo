@@ -12,6 +12,8 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 const CompressionPlugin = require('compression-webpack-plugin');
 //在每次执行npm run build时,自动帮我们清理掉dist
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+console.log(path.resolve(__dirname, './static'))
 
 // function buildEntriesAndHTML() {
 //   // 用来构建entry
@@ -103,6 +105,9 @@ module.exports = {
       },
       //处理sass文件
       { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
+      { test: /\.(png|gif|jpg|jpeg)$/, type: "asset/inline" },
+      { test: /\.(eot|svg|ttf|woff|woff2)$/, type: "asset/resource" },
+      /*
       //处理文件-图片
       {
         test: /\.(png|gif|jpg|jpeg)$/,
@@ -116,6 +121,7 @@ module.exports = {
       },
       // 处理字体图标
       { test: /\.(eot|svg|ttf|woff|woff2)$/, use: ["file-loader"] },
+      */
       //处理jsx
       {
         test: /\.(js|jsx)$/,
@@ -129,10 +135,26 @@ module.exports = {
           }
         }
       },
+      // {
+      //   test: "/\.(png|jpg|json)$/",
+      //   type: "asset",
+      //   generator: {
+      //     path: path.resolve(__dirname, 'dist/static'),
+      //     filename: "[name][ext]" // 指定文件名格式
+      //   },
+      //   parser: {
+      //     dataUrlCondition: {
+      //       maxSize: 1000 * 1024
+      //     }
+      //   }
+      // },
     ]
   },
   //插件
   plugins: [
+    new CopyWebpackPlugin({
+      patterns: [{ from: path.resolve(__dirname, 'static'), to: 'static' }],
+    }),
     new HtmlWebpackPlugin({
       template: './public/index.html',  //打包前的html 文件
       // filename: 'index.html',   //打包后的文件名
@@ -161,12 +183,13 @@ module.exports = {
       // 是否删除原文件
       deleteOriginalAssets: false,
     }),
+
   ],
   resolve: {
     alias: {
       //@别名写法
-      "@": path.resolve(__dirname, "src"),
-      "@static": path.resolve(__dirname, 'static'),
+      "@src": path.resolve(__dirname, "src"),
+      // "@static": path.resolve(__dirname, 'static'),
     },
     //可以省略下面的后缀名7
     extensions: ['.js', '.jsx', '.json', '.css']

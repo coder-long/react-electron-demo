@@ -178,6 +178,67 @@ npm run dev
 - npm run build
 - npm run pkg1
 
+### 知识点
+
+- 禁止用户选择样式
+  ```
+   user-select: none;
+  ```
+
+- 界面移动之后点击事件无法触发
+  **父元素设置 `-webkit-app-region: drag;`**
+  **子元素设置 `-webkit-app-region: no-drag;`**
+
+
+- 背景图设置
+  将图片导入进来 然后设置背景
+  ```
+  import bg from './bg.png'
+
+  <div className="login_moudel" style={{ backgroundImage: `url(${bg})` }}></div>
+  ```
+
+- webpack5 配置更改（之前没有注意，用的是w4的写法）
+  * [webpack资源配置](https://webpack.docschina.org/guides/asset-modules/#inlining-assets)
+  - 静态资源打包插件 [copy-webpack-plugin
+](https://www.npmjs.com/package/copy-webpack-plugin/v/9.0.1)
+  - 踩坑记录：之前一直用的最新版本的copy-webpack-plugin插件 导致报错 如下
+  ```
+    HookWebpackError: Invalid host defined options
+      at makeWebpackError (D:\workspace\my-react-demo\node_modules\webpack\lib\HookWebpackError.js:48:9)
+      at D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:2517:12
+      at eval (eval at create (D:\workspace\my-react-demo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:33:10), <anonymous>:74:1)
+      at D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:482:26
+      at D:\workspace\my-react-demo\node_modules\copy-webpack-plugin\dist\index.js:705:13
+      at runMicrotasks (<anonymous>)
+      at processTicksAndRejections (internal/process/task_queues.js:93:5)
+
+    TypeError: Invalid host defined options
+      at D:\workspace\my-react-demo\node_modules\copy-webpack-plugin\dist\index.js:701:13
+      at fn (D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:481:9)
+      at Hook.eval [as callAsync] (eval at create (D:\workspace\my-react-demo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:33:10), <anonymous>:72:1)
+      at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (D:\workspace\my-react-demo\node_modules\webpack\node_modules\tapable\lib\Hook.js:18:14)
+      at cont (D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:2514:34)
+      at D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:2560:10
+      at symbolIterator (D:\workspace\my-react-demo\node_modules\neo-async\async.js:3485:9)
+      at timesSync (D:\workspace\my-react-demo\node_modules\neo-async\async.js:2297:7)
+      at Object.eachLimit (D:\workspace\my-react-demo\node_modules\neo-async\async.js:3463:5)
+      at Compilation.createChunkAssets (D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:3798:12)
+    caused by plugins in Compilation.hooks.processAssets
+    TypeError: Invalid host defined options
+      at D:\workspace\my-react-demo\node_modules\copy-webpack-plugin\dist\index.js:701:13
+      at fn (D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:481:9)
+      at Hook.eval [as callAsync] (eval at create (D:\workspace\my-react-demo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:33:10), <anonymous>:72:1)
+      at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (D:\workspace\my-react-demo\node_modules\webpack\node_modules\tapable\lib\Hook.js:18:14)
+      at cont (D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:2514:34)
+      at D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:2560:10
+      at symbolIterator (D:\workspace\my-react-demo\node_modules\neo-async\async.js:3485:9)
+      at timesSync (D:\workspace\my-react-demo\node_modules\neo-async\async.js:2297:7)
+      at Object.eachLimit (D:\workspace\my-react-demo\node_modules\neo-async\async.js:3463:5)
+      at Compilation.createChunkAssets (D:\workspace\my-react-demo\node_modules\webpack\lib\Compilation.js:3798:12)
+  ```
+  - 解决办法就是将插件的版本降低 目前用的是`"copy-webpack-plugin": "^9.1.0"`
+
 
 
 

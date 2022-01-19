@@ -1,19 +1,21 @@
 .login_moudel {
-  height: 100%;
-  position: relative;
-  width: 100%;
+  -webkit-app-region: drag;
   // background-image: url('./bg.png');
   background-repeat: no-repeat;
   background-size: cover;
-  -webkit-app-region: drag;
+  height: 100%;
+  position: relative;
+  /* 阻止文字选中 */
+  user-select: none;
+  width: 100%;
 
   .login-form {
+    -webkit-app-region: no-drag;
     max-width: 300px;
     position: absolute;
     right: 10%;
     top: 50%;
     transform: translateY(-50%);
-    -webkit-app-region: no-drag;
   }
 
   .login-form-forgot {
@@ -30,5 +32,13 @@
 
   .ant-form-item-explain.ant-form-item-explain-error {
     text-align: left;
+  }
+
+  .lang-switch {
+    -webkit-app-region: no-drag;
+    bottom: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
   }
 }
