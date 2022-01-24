@@ -23,7 +23,8 @@
   }
 
   .rember-me {
-    float: left;
+    // float: left;
+    float: right;
   }
 
   .login-form-button {
@@ -40,5 +41,7 @@
     cursor: pointer;
     position: absolute;
     right: 10px;
+    background: transparent;
+    font-size: 12px;
   }
 }

@@ -4,16 +4,16 @@ import { bindActionCreators } from "redux";
 import * as reduxFunc from '../../redux/action'
 import { Router as HashRouter, Switch, Route, Link, Redirect, } from 'react-router-dom';
 import history from '../../router/config'
-import { Layout, Menu, message, Button, Row, Col, Modal, Upload } from 'antd';
+import { Layout, Menu, message, Button, Row, Col, Modal, Avatar } from 'antd';
 import fs from 'fs'
 // import { ipcRenderer } from 'electron';
 import TbCharts from './TbCharts'
-import Jiujia from '../JiuJia/Jiujia';
+import Jiujia from '../../components/JiuJia/Jiujia';
 import { HeaderMenu, MyRouter } from '../../router';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  AppstoreOutlined,
+  UserOutlined,
   PieChartOutlined,
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -29,10 +29,10 @@ import './home.scss'
 import { router } from '../../router';
 
 
-import Demo from '../classCom/Demo';
-import FunComDemo from '../funCom/FunComDemo';
-import Tmp from '../classCom/Tmp';
-import Login from '../../pages/Login/Login.jsx';
+import Demo from '../../components/classCom/Demo';
+import FunComDemo from '../../components/funCom/FunComDemo';
+import Tmp from '../../components/classCom/Tmp';
+import Login from '../Login/Login.jsx';
 import { requestPost } from '../../api/request';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -95,6 +95,10 @@ class Home extends Component {
     console.log(this.homeRef.current)
     console.log(this.props)
 
+    if (Object.values(this.props.userInfo).length) {
+
+    }
+
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -150,117 +154,63 @@ class Home extends Component {
       },
     }
 
+
+
     return (
-      <HashRouter history={history}>
-        <Layout id='components-layout-demo-custom-trigger' style={{ height: '100vh' }}>
-          <Sider trigger={null} collapsible collapsed={this.state.collapsed} theme='light'>
-            <div className="logo" style={{ WebkitAppRegion: "drag" }}>logo</div>
-            {/* <Menu
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              mode="inline"
-              theme="light"
-              inlineCollapsed={this.state.collapsed}
-            >
-              <Menu.Item key="1" icon={<PieChartOutlined />}>
-                <Link to={'/'}>主页</Link>
-              </Menu.Item>
-              <SubMenu key="sub1" icon={<MailOutlined />} title="关于">
-                <Menu.Item key="2">
-                  <Link to={'/about'}>实现方式</Link>
-                </Menu.Item>
-              </SubMenu>
-              <Menu.Item key="3" icon={<PieChartOutlined />}>
-                <Link to={'/user'}>英雄联盟</Link>
-              </Menu.Item>
-              <Menu.Item key="4" icon={<PieChartOutlined />}>
-                <Link to={'/ddd'}>音乐</Link>
-              </Menu.Item>
-              <Menu.Item key="5" icon={<PieChartOutlined />}>
-                <Link to={'/login'}>登录模块</Link>
-              </Menu.Item>
-              <Menu.Item key="6" icon={<LogoutOutlined />}>
-                <span onClick={this.showModal}>退出应用</span>
-                <Modal visible={this.state.visible}
-                  title="是否退出应用"
-                  onOk={this.handleOk}
-                  onCancel={this.handleCancel}>是否退出应用</Modal>
 
-              </Menu.Item>
-            </Menu> */}
-            <HeaderMenu />
-
-          </Sider>
-          <Layout className="site-layout">
-            <Header className="site-layout-background-header" style={{ padding: 0, textAlign: 'left', WebkitAppRegion: "drag" }}>
-              {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                className: 'trigger',
-                style: { WebkitAppRegion: "no-drag" },
-                onClick: this.toggle,
-              })}
-              <div className="on-off-btn">
-                <span onClick={this.mainWindowMinSize}>
-                  <MinusOutlined />
-                </span>
-                <span onClick={this.fullScreenToggle}>
-                  {
-                    this.state.isFullScreen ? <span className="iconfont">&#xe916;</span> : <span className="iconfont">&#xe600;</span>
-                  }
-                </span>
-                <span onClick={this.mainWindowHide}>
-                  <CloseOutlined />
-                </span>
-              </div>
-            </Header>
-            <Content
-              className="site-layout-background"
-              style={{
-                margin: '24px 16px',
-                padding: 24,
-                minHeight: 280,
-              }}
-            >
-              <MyRouter />
-
-              {/* <Switch>
-                <Route path='/about'>
-                  <Jiujia />
-                </Route>
-                <Route path='/user'>
-                  cc
-                </Route>
-                <Route path='/ddd'>
-                  dd
-                  <Button onClick={this.handleFileUoload}>electron弹框</Button>
-                  <Upload {...uploadCfg}>
-                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                  </Upload>
-                </Route>
-                <Route path='/login'>
-                  <Login />
-                </Route>
-                <Route path='/home'>
-                  home
-                  <div id='home' ref={this.homeRef}></div>
-                  <TbCharts />
-                </Route>
-                <Redirect from='/' to='/home'></Redirect>
-              </Switch> */}
-
-
-            </Content>
-          </Layout>
+      <Layout className='home' style={{ height: '100vh' }}>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed} theme='light' className='silder-left'>
+          <div className="logo" style={{ WebkitAppRegion: "drag" }}>logo</div>
+          {/* 路由导航 */}
+          <HeaderMenu />
+          {/* 头像 */}
+          <div className='profile-photo'>
+            <Avatar size={45} icon={<UserOutlined />} />
+          </div>
+        </Sider>
+        <Layout className="site-layout">
+          <Header className="site-layout-background-header" style={{ padding: 0, textAlign: 'left', WebkitAppRegion: "drag" }}>
+            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              style: { WebkitAppRegion: "no-drag" },
+              onClick: this.toggle,
+            })}
+            <div className="on-off-btn">
+              <span onClick={this.mainWindowMinSize}>
+                <MinusOutlined />
+              </span>
+              <span onClick={this.fullScreenToggle}>
+                {
+                  this.state.isFullScreen ? <span className="iconfont">&#xe916;</span> : <span className="iconfont">&#xe600;</span>
+                }
+              </span>
+              <span onClick={this.mainWindowHide}>
+                <CloseOutlined />
+              </span>
+            </div>
+          </Header>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+            }}
+          >
+            {/* 路由容器 */}
+            <MyRouter />
+          </Content>
         </Layout>
-      </HashRouter>
+      </Layout>
     );
   }
 }
 
 //映射到store
 const mapStateToProps = (state) => {
-  const { hel = {}, tmpData = {}, socketData = {} } = state.staticData;//静态数据
+  const { hel = {}, tmpData = {}, socketData = {}, userInfo = {} } = state.staticData;//静态数据
   const { httpHel = {} } = state.httpData;//http数据
-  return { hel, httpHel, tmpData, socketData }
+  return { hel, httpHel, tmpData, socketData, userInfo }
 }
 
 const mapDispatchToProps = (dispatch, props) => {//props 父组件传过来的参数

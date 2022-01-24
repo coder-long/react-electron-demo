@@ -21,7 +21,8 @@ export let initialState = {
   demo: [],
   socketData: {
     socketConnectedState: false,
-  }
+  },
+  complete: false,
 };
 
 //请求到的数据

@@ -107,7 +107,7 @@ module.exports = {
       { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
       { test: /\.(png|gif|jpg|jpeg)$/, type: "asset/inline" },
       { test: /\.(eot|svg|ttf|woff|woff2)$/, type: "asset/resource" },
-      /*
+      /* 下面写法是webpack4的  webpack5中的配置在上两行 文档地址 https://webpack.docschina.org/guides/asset-modules/#inlining-assets
       //处理文件-图片
       {
         test: /\.(png|gif|jpg|jpeg)$/,
@@ -135,19 +135,6 @@ module.exports = {
           }
         }
       },
-      // {
-      //   test: "/\.(png|jpg|json)$/",
-      //   type: "asset",
-      //   generator: {
-      //     path: path.resolve(__dirname, 'dist/static'),
-      //     filename: "[name][ext]" // 指定文件名格式
-      //   },
-      //   parser: {
-      //     dataUrlCondition: {
-      //       maxSize: 1000 * 1024
-      //     }
-      //   }
-      // },
     ]
   },
   //插件
@@ -183,7 +170,6 @@ module.exports = {
       // 是否删除原文件
       deleteOriginalAssets: false,
     }),
-
   ],
   resolve: {
     alias: {

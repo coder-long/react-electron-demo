@@ -1,11 +1,13 @@
 import React, { useState, useRef } from "react";
 import { HashRouter as Router, Switch, Route, Redirect, Link, NavLink } from "react-router-dom"
 import { Menu, Modal, Row, Col, Button, Card, Avatar } from "antd";
-import { StarOutlined, StarFilled, HeartOutlined, LogoutOutlined, ExclamationCircleOutlined, UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons';
+import history from "./config";
+import { StarOutlined, StarFilled, HeartOutlined, LogoutOutlined, ExclamationCircleOutlined, SettingOutlined, AppstoreOutlined } from '@ant-design/icons';
 import Jiujia from "../components/JiuJia/Jiujia";
-import TbCharts from "../components/Home/TbCharts";
+import TbCharts from "../pages/Home/TbCharts";
 import Login from "../pages/Login/Login";
 import Music from "../pages/Music/Music";
+import Setting from "../components/Setting/Setting";
 import { UploadCom } from "../components/funCom";
 
 
@@ -36,13 +38,13 @@ const route = [
   //     ]
   // },
   {
-    path: '/home',
+    path: '/home/index',
     component: TbCharts,
-    name: 'home',
+    name: 'homeIndex',
     children: []
   },
   {
-    path: '/implementation',
+    path: '/home/implementation',
     component: Jiujia,
     name: Implementation,
     children: [
@@ -55,40 +57,40 @@ const route = [
     ]
   },
   {
-    path: '/implementation-child',
+    path: '/home/implementation-child',
     component: Implementation,
     name: "implementation-child",
     children: []
   },
   {
-    path: '/LOL',
+    path: '/home/LOL',
     component: UploadCom,
     name: "LOL",
     children: []
   },
   {
-    path: '/music',
+    path: '/home/music',
     component: Music,
     name: "music",
     children: []
   },
   {
-    path: '/login-module',
-    component: Login,
-    name: "login-module",
+    path: '/home/quit',
+    component: Music,
+    name: "quit",
     children: []
   },
   {
-    path: '/quit',
-    component: Music,
-    name: "quit",
+    path: '/home/setting',
+    component: Setting,
+    name: "setting",
     children: []
   },
 ];
 
 export const menu = [
   {
-    path: '/home',
+    path: '/home/index',
     icon: <HeartOutlined />,
     name: '主页'
   },
@@ -97,7 +99,7 @@ export const menu = [
     name: '实现方式',
     children: [
       {
-        path: '/implementation',
+        path: '/home/implementation',
         icon: <StarFilled />,
         name: '实现方式-child',
         children: [],
@@ -105,19 +107,19 @@ export const menu = [
     ],
   },
   {
-    path: '/LOL',
+    path: '/home/LOL',
     icon: <HeartOutlined />,
     name: '英雄联盟'
   },
   {
-    path: '/music',
+    path: '/home/music',
     icon: <HeartOutlined />,
     name: '音乐'
   },
   {
-    path: '/login-module',
-    icon: <HeartOutlined />,
-    name: '登录模块'
+    path: '/home/setting',
+    icon: <SettingOutlined />,
+    name: '设置'
   },
 ]
 
@@ -132,7 +134,7 @@ export function MyRouter() {
         })
       }
       {/* <Route path='/404' component={Notfound} /> */}
-      <Redirect from='/' to="home" />
+      <Redirect from='/home' to="/home/index" />
     </Switch>
   )
 }
@@ -141,41 +143,11 @@ export function MyRouter() {
 
 //导航
 export function HeaderMenu() {
-
-  const [visible, setVisible] = useState(false);
-
-  function logOutApp() {
-
-  }
-
-  function onClick(e) {
-    if (e.key === '退出应用') {
-      showConfirm()
-    }
-  }
-
-  function showConfirm() {
-    Modal.confirm({
-      title: '是否退出应用?',
-      icon: <ExclamationCircleOutlined />,
-      centered: true,
-      onOk() {
-        console.log('OK');
-        $electron.ipcRenderer.send('quit', { msg: 'App Quit.' })
-      },
-      onCancel() {
-        console.log('Cancel');
-        setVisible(false)
-      },
-    });
-  }
-
   return (
     <Menu
       defaultSelectedKeys={['主页']}
       defaultOpenKeys={['sub1']}
       mode="inline"
-      onClick={onClick}
       theme="light">
       {
         menu.map(item => {
@@ -195,9 +167,6 @@ export function HeaderMenu() {
             </Menu.Item>
         })
       }
-      <Menu.Item key="退出应用" icon={<LogoutOutlined />}>
-        <span>退出应用</span>
-      </Menu.Item>
     </Menu>
 
   )

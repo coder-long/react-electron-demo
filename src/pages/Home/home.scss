@@ -1,0 +1,71 @@
+$white: #fff;
+$clolr1890ff: #1890ff;
+
+.site-layout {
+  .site-layout-background-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $white;
+
+    .on-off-btn {
+      padding-right: 10px;
+
+      > span {
+        cursor: pointer;
+        -webkit-app-region: no-drag;
+        padding: 10px;
+      }
+    }
+  }
+
+  .site-layout-background {
+    background: $white;
+  }
+}
+
+.home {
+  .silder-left {
+    position: relative;
+    > .ant-layout-sider-children {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+
+  .logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .profile-photo {
+    display: flex;
+    align-items: flex-end;
+    flex: auto;
+    padding-bottom: 20px;
+  }
+
+  .trigger {
+    padding: 0 24px;
+    font-size: 18px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $clolr1890ff;
+    }
+  }
+
+  .Tbcharts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+  }
+}

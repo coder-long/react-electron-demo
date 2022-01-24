@@ -2,7 +2,10 @@ const { app, BrowserWindow, ipcMain, Menu, Tray } = require("electron");
 const isDev = require('electron-is-dev')
 const path = require('path')
 const fs = require('fs')
+const Store = require('electron-store');
 console.log('isDev:', isDev)
+
+const store = new Store()
 /*
 Tray 系统托盘 小标
 Menu 菜单
@@ -51,6 +54,7 @@ function createWindow() {
     height: 400,//400
     minHeight: 400,
     minWidth: 300,
+    center: true,
     safeDialogs: true,//对话框保护
     safeDialogsMessage: "是否关闭应用！",
     icon: path.resolve(__dirname, './public/favicon.ico'),
@@ -61,6 +65,7 @@ function createWindow() {
       preload: path.resolve(__dirname, './preload.js'),//在页面运行其他脚本之前预先加载指定的脚本 无论页面是否集成Node, 此脚本都可以访问所有Node API 脚本路径为文件的绝对路径。
       contextIsolation: false,//是否在独立 JavaScript 环境中运行 Electron API和指定的preload 脚本. 默认为 true
       enableRemoteModule: true,
+      webSecurity: false
     },
     frame: false,//设置为 false 时可以创建一个无边框窗口 默认值为 true。
     // closable: false,//界面是否可以关闭
@@ -163,7 +168,7 @@ ipcMain.on('cancel-win-full-screen', (e, arg) => {
 })
 //监听登录变化
 ipcMain.on('isLogin', (event, arg) => {
-  console.log(arg)
+  console.log('isLogin', arg)
   if (Boolean(arg) && arg) {
     mainWindow.setContentSize(800, 400)
     mainWindow.setResizable(false)
@@ -171,6 +176,25 @@ ipcMain.on('isLogin', (event, arg) => {
     mainWindow.setContentSize(1200, 800)
     mainWindow.setResizable(true)
   }
+  mainWindow.center()
+})
+//是否记住用户信息
+ipcMain.on('loginRember', (event, arg) => {
+  store.set('user', { ...arg })
+})
+//再次打开应用是将记住的用户信息推送出去
+ipcMain.handle('remberLogin', (event, ...arg) => {
+  return store.get('user');
+})
+//保存token信息
+ipcMain.on('saveToken', (event, arg) => {
+  console.log(arg)
+  store.set('token', arg || '')
+});
+//获取token信息
+ipcMain.handle('token', (event, ...arg) => {
+  console.log(193, store.get("token"))
+  return store.get("token")
 })
 
 module.exports = mainWindow

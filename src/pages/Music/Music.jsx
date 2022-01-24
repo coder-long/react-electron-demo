@@ -20,23 +20,23 @@ function Music() {
       avatar: <Avatar src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
     },
     {
-      img: "bb",
-      title: 'bb',
-      description: 'bbb',
+      img: "cc",
+      title: 'cc',
+      description: 'ccc',
       cover: <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />,
       avatar: <Avatar src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
     },
     {
-      img: "bb",
-      title: 'bb',
-      description: 'bbb',
+      img: "dd",
+      title: 'dd',
+      description: 'ddd',
       cover: <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />,
       avatar: <Avatar src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
     },
     {
-      img: "bb",
-      title: 'bb',
-      description: 'bbb',
+      img: "ee",
+      title: 'ee',
+      description: 'eee',
       cover: <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />,
       avatar: <Avatar src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
     },

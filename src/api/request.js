@@ -42,8 +42,3 @@ export function requestPut(url, data, cfg) {
 }
 
 
-export const URL = {
-  login: '/users/login',
-  register: '/users/register',
-
-}

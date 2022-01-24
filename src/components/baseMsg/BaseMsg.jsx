@@ -2,6 +2,7 @@ import React, { Fragment, useRef } from "react";
 import { Form, Input, Button, Checkbox, Card } from 'antd';
 
 import { requestGet } from '../../api/request'
+import { testRequest } from "../../api";
 
 
 const formMap = {
@@ -38,8 +39,10 @@ function BaseMsg(props) {
 
   const Anys = useRef()
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Success:', values);
+    const aa = await testRequest()
+    console.log(aa)
   };
 
   const onFinishFailed = (errorInfo) => {

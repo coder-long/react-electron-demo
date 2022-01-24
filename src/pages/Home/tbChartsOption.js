@@ -101,7 +101,6 @@ const option2 = {
       show: true,
       color: 'red',
       formatter: function (value, index) {
-        console.log(value, index)
         if (value.split() === 'ten') {
           return `{a|${value}}`
         } else {

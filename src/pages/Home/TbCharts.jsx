@@ -12,11 +12,8 @@ function TbCharts(props) {
   const TbChartsRef = useRef(null);
   const TbChartsRef1 = useRef(null);
 
-  console.log($charts)
 
   useEffect(() => {
-    console.log($charts)
-    console.log(TbChartsRef.current)
     let myCharts = $charts.init(TbChartsRef.current),
       myCharts1 = $charts.init(TbChartsRef1.current)
 

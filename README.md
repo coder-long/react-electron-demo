@@ -239,7 +239,101 @@ npm run dev
   ```
   - 解决办法就是将插件的版本降低 目前用的是`"copy-webpack-plugin": "^9.1.0"`
 
+- 使用外部静态字体图标（iconfont）
+  - 在index.html 中添加`<link rel="stylesheet" href="static/Iconfont/iconfont.css">` 注意路径
+  - 如果引入正确的话，但是没有显示，可能是下载字体图标的时候出问题了，阿里巴巴图标下载默认不会有`eot、svg、base64`这几个选项，需要手动勾选上
+  - 勾选了然后在下载到本地，这样界面上的图标就会显示了(我之前没有勾选界面上图标一直没有显示，最后看了文档才知道现在版本不会默认勾选)
+  - 完整的是woff2、woff、ttf、eot、svg、base64
+  - [设置链接](https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=3148156&keyword=&project_type=&page=) 的 *项目设置*
 
+- 主进程将store的数据推送给渲染进程
+  - [electron对应文档地址](https://www.electronjs.org/zh/docs/latest/api/ipc-renderer#ipcrendererinvokechannel-args)
+  - 代码中
 
+    ```
+      //main
+      //保存token信息
+      ipcMain.on('saveToken', (event, arg) => {
+        console.log(arg)
+        store.set('token', arg || '')
+      });
+      //获取token信息
+      ipcMain.handle('token', (event, ...arg) => {
+        console.log(193, store.get("token"))
+        return store.get("token")
+      })
 
+      //IPC
+      //保存token信息
+      $electron.ipcRenderer.send('saveToken', data.token);
+      //获取token信息
+      await $electron.ipcRenderer.invoke('token')
 
+    ```
+
+- 获取错误请求的响应状态码 status
+  - err.response.status
+
+    ```
+    //请求失败拦截器
+    (err) => {
+      switch (err.response.status) {
+        case 400:
+          message.error('请求错误！');
+          break;
+        // 401: 未登录状态，跳转登录页
+        case 401:
+          console.log('token无效 !')
+          message.error('登录过期，请重新登录 !')
+          break;
+        // 403 token过期
+        // 清除token并跳转登录页
+        case 403:
+          message.error('访问被拒绝 !')
+          break;
+        // 404请求不存在
+        case 404:
+          // 请求的资源不存在
+          message.error('访问资源不存在 !')
+          break;
+        default:
+          console.log('other');
+      }
+      return Promise.reject(err)
+    }
+    ```
+- 翻译i18n 不同模块翻译区分
+  ```
+  //翻译json
+  {
+    "login": {
+      "请输入用户名": "请输入用户名",
+      "请输入密码": "请输入密码",
+      "记住密码": "记住密码",
+      "忘记密码": "忘记密码",
+      "登录": "登录",
+      "注册": "注册",
+      "用户名": "用户名",
+      "密码": "密码",
+      "确认密码": "确认密码",
+      "密码不匹配": "两次密码不匹配"
+      },
+    "otherMoudel": {
+      "aaa": "aaa"
+    }
+  }
+
+  //用法
+  t("login.记住密码") //记住是点调用 ,[]我这里好像不行 没有找到原因
+  t("otherMoudel.aaa")
+  ```
+- 解决 electron static静态资源无法加载的问题
+  - issue  Not allowed to load local resource: file:///D:/workspace/my-react-demo/static/images/bg.png
+    ```
+    //在main.js 中加上这个属性配置
+     webPreferences: {
+    + webSecurity: false,
+    },
+    ```
+- 验证token是否有效
+  - 后端生成的token会在token前面加一个标识给前端 或者前端加标识  ，当前端把token传给后端验证的时候 ， 后端需要把token前面的标识符截取掉 ，然后再验证。

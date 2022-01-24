@@ -1,16 +1,26 @@
+
+import './index.css';
+import logo from './logo.svg';
+import 'antd/dist/antd.less'; // or 'antd/dist/antd.less'
+import './theme/index.less';
+import './App.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
 import i18n from './i18n';
 import { Provider } from 'react-redux';
+import history from './router/config';
+import { Router as HashRouter, Switch, Route, Link, Redirect, } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <HashRouter history={history}>
+        <App />
+      </HashRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

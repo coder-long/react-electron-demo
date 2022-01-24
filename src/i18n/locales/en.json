@@ -1,10 +1,14 @@
 {
-  "请输入用户名": "Please input your Username!",
-  "请输入密码": "Please input your Password!",
-  "记住密码": "Remember me",
-  "忘记密码": "Forgot password",
-  "登录": "Login In",
-  "注册": "resgister now!",
-  "用户名": "Username",
-  "密码": "Password"
+  "login": {
+    "请输入用户名": "Please input your username!",
+    "请输入密码": "Please input your password!",
+    "记住密码": "Remember me",
+    "忘记密码": "Forgot password",
+    "登录": "Login In",
+    "注册": "Register",
+    "用户名": "username",
+    "密码": "password",
+    "确认密码": "please input password again",
+    "密码不匹配": "The two passwords that you entered do not match"
+  }
 }
