@@ -10,5 +10,21 @@
     "密码": "password",
     "确认密码": "please input password again",
     "密码不匹配": "The two passwords that you entered do not match"
+  },
+  "userManager": {
+    "用户名": "UserName",
+    "密码": "Password",
+    "头像信息": "Image information",
+    "地区": "Address",
+    "注册时间": "Register Time",
+    "更新时间": "Update Time",
+    "操作": "Operation"
+  },
+  "menu": {
+    "主页": "Home",
+    "音乐": "Music",
+    "用户管理": "UserManager",
+    "英雄联盟": "League of Legends",
+    "设置": "Setting"
   }
 }

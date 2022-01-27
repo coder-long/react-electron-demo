@@ -18,7 +18,7 @@ let token
 //请求拦截器 添加token等信息
 serve.interceptors.request.use(async config => {
 
-  config.headers.authorization = token + 1; //请求头加上token
+  config.headers.authorization = token; //请求头加上token
 
   return config
 }, err => {
@@ -48,6 +48,7 @@ serve.interceptors.response.use(res => {
       console.log('token无效 !')
       message.error('登录过期，请重新登录 !')
       $electron.ipcRenderer.send('saveToken', '');
+      $electron.ipcRenderer.send('isLogin', true)
       history.replace('/login')
       break;
     // 403 token过期

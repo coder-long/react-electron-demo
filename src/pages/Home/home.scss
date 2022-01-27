@@ -27,23 +27,21 @@ $clolr1890ff: #1890ff;
 .home {
   .silder-left {
     position: relative;
-    > .ant-layout-sider-children {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-    }
+    // > .ant-layout-sider-children {
+    //   display: flex;
+    //   align-items: center;
+    //   flex-direction: column;
+    // }
   }
 
   .logo {
-    height: 32px;
-    margin: 16px;
+    // height: 32px;
+    // margin: 16px;
     background: rgba(255, 255, 255, 0.3);
   }
 
   .profile-photo {
-    display: flex;
-    align-items: flex-end;
-    flex: auto;
+    padding-top: 20px;
     padding-bottom: 20px;
   }
 
@@ -68,4 +66,8 @@ $clolr1890ff: #1890ff;
     width: 100%;
     height: 100%;
   }
+}
+
+.ant-image-preview-operations {
+  -webkit-app-region: no-drag;
 }

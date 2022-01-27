@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, } from "react";
 import { useDispatch, useSelector } from "react-redux";//函数组件中使用store
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import history from "../../router/config";
 import './login.scss'
 import bg from './bg.png'
-import store from "../../redux/store";
 import * as reduxFunc from '../../redux/action'
 import { bindActionCreators } from "redux";
 import { LoginRequest, RegisterRequest } from "../../api";
@@ -31,18 +30,16 @@ function Login(props) {
     setLodaingBtn(true)
     switch (type) {
       case "login":
-        const { data = {} } = await LoginRequest({ userInfo: { ...values } })
-        if (data.token && data.token.length) {
-          $electron.ipcRenderer.send('loginRember', values.remember ? values : { username: '', remember: false, password: '' });
-          loadData(data.token, 'token');
-          loadData({ ...values }, 'userInfo');
-          $electron.ipcRenderer.send('saveToken', data.token);
+        const { data: { msg = '', token = '', userInfo = {}, code } } = await LoginRequest({ userInfo: { ...values } })
+        if (code === 0) {
+          $electron.ipcRenderer.send('loginRember', values.remember ? values : { username: values.username, remember: false, password: '' });
+          loadData(token, 'token');
+          loadData({ ...userInfo }, 'userInfo');
+          $electron.ipcRenderer.send('saveToken', token);
           $electron.ipcRenderer.send('isLogin', false)
-          // props.setLogin(false)
           history.replace('/home')
-
         } else {
-          message.error(data.msg)
+          message.error(msg)
           $electron.ipcRenderer.send('saveToken', '');
           setLodaingBtn(false);
         }
@@ -96,10 +93,6 @@ function Login(props) {
     })
   }
 
-  useEffect(() => {
-    props.setLogin(true);
-  }, [])
-
   const typeMap = (type) => {
     switch (type) {
       case "login":
@@ -116,7 +109,6 @@ function Login(props) {
       form.setFieldsValue({ ...res })
     })
   }, [])
-
 
   return (
     <div className="login_moudel" style={{ backgroundImage: `url(${bg})` }}>

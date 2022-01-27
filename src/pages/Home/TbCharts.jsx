@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, Fragment, useRef } from "react";
-import $charts from '../../utils/charts'
+import $charts from '../../charts/charts'
 import { tbChartsOption, option1, option2 } from './tbChartsOption'
 
 

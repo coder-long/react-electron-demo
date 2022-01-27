@@ -1,46 +1,26 @@
+import './home.scss';
 import React, { Component, createRef, Fragment } from 'react';
+import fs from 'fs'
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as reduxFunc from '../../redux/action'
-import { Router as HashRouter, Switch, Route, Link, Redirect, } from 'react-router-dom';
-import history from '../../router/config'
-import { Layout, Menu, message, Button, Row, Col, Modal, Avatar } from 'antd';
-import fs from 'fs'
-// import { ipcRenderer } from 'electron';
-import TbCharts from './TbCharts'
-import Jiujia from '../../components/JiuJia/Jiujia';
+import { Layout, Menu, message, Image } from 'antd';
+import UserHeader from '../../components/UserHeader/UserHeader';
 import { HeaderMenu, MyRouter } from '../../router';
+import { requestPost } from '../../api/request';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
-  PieChartOutlined,
-  FullscreenOutlined,
-  FullscreenExitOutlined,
   MinusOutlined,
-  UploadOutlined,
   CloseOutlined,
-  LogoutOutlined,
-  MailOutlined,
 } from '@ant-design/icons';
-
-import './home.scss'
-
-import { router } from '../../router';
-
-
-import Demo from '../../components/classCom/Demo';
-import FunComDemo from '../../components/funCom/FunComDemo';
-import Tmp from '../../components/classCom/Tmp';
-import Login from '../Login/Login.jsx';
-import { requestPost } from '../../api/request';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 class Home extends Component {
   state = {
-    collapsed: false,
+    collapsed: true,
     visible: false,
     isFullScreen: false,
   };
@@ -78,7 +58,7 @@ class Home extends Component {
   }
 
   fullScreenToggle = (data) => {
-    console.log(data)
+    // console.log(data)
     const { isFullScreen } = this.state;
 
     if (!isFullScreen) {
@@ -92,17 +72,16 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.homeRef.current)
-    console.log(this.props)
+    // console.log(this.homeRef.current)
+    // console.log(this.props)
 
     if (Object.values(this.props.userInfo).length) {
 
     }
-
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    console.log(prevProps, prevState)
+    // console.log(prevProps, prevState)
     if (this.props.socketData.socketConnectedState !== prevProps.socketData.socketConnectedState) {
       if (this.props.socketData.socketConnectedState) {
         message.success('服务已连接。')
@@ -113,9 +92,9 @@ class Home extends Component {
   }
 
   handleFileUoload = () => {
-    console.log('handleFileUoload', $electron.dialog);
+    // console.log('handleFileUoload', $electron.dialog);
     $electron.remote.dialog.showOpenDialog($electron.remote.getCurrentWindow(), { title: '选择文件', filters: ['.js'] }).then(res => {
-      console.log(res)
+      // console.log(res)
       // console.log(canceled, filePaths)
       let buf = fs.readFileSync(res.filePaths[0]),
         pathSplit = res.filePaths[0].split('\\'),
@@ -123,12 +102,12 @@ class Home extends Component {
         file = new File([buf], fileName, { type: "text/javascript" }),
         formData = new FormData();
 
-      console.log(file)
+      // console.log(file)
 
       formData.append('file_upload', file, fileName);
 
       requestPost('/file/upload', { ...formData }).then(res => {
-        console.log(res)
+        // console.log(res)
       })
     })
   }
@@ -142,9 +121,9 @@ class Home extends Component {
         authorization: 'authorization-text',
       },
       onChange(info) {
-        console.log(info)
+        // console.log(info)
         if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
+          // console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
@@ -154,19 +133,16 @@ class Home extends Component {
       },
     }
 
-
-
     return (
-
       <Layout className='home' style={{ height: '100vh' }}>
         <Sider trigger={null} collapsible collapsed={this.state.collapsed} theme='light' className='silder-left'>
-          <div className="logo" style={{ WebkitAppRegion: "drag" }}>logo</div>
+          <div className="logo" style={{ WebkitAppRegion: "drag" }}>
+            <Image width={64} src={`${_static}/images/logo4.png`} preview={false} />
+          </div>
           {/* 路由导航 */}
           <HeaderMenu />
           {/* 头像 */}
-          <div className='profile-photo'>
-            <Avatar size={45} icon={<UserOutlined />} />
-          </div>
+          <UserHeader />
         </Sider>
         <Layout className="site-layout">
           <Header className="site-layout-background-header" style={{ padding: 0, textAlign: 'left', WebkitAppRegion: "drag" }}>
@@ -214,7 +190,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch, props) => {//props 父组件传过来的参数
-  console.log('props', props);
+  // console.log('props', props);
   return {
     //dispatch 内传入action(actionCreator创建者)(就是那个addTodo函数的返回值)  dispatch之后交给reducer处理
     //对应addTodo reducer处理了之后返回一个新的state更新store

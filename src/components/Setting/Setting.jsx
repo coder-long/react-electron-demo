@@ -34,6 +34,7 @@ function Setting() {
         console.log('OK');
         history.push('/login');
         $electron.ipcRenderer.send('isLogin', true)
+        $electron.ipcRenderer.send('saveToken', '');
       },
       onCancel() {
         console.log('Cancel');

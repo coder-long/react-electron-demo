@@ -4,7 +4,6 @@ import logo from './logo.svg';
 import 'antd/dist/antd.less'; // or 'antd/dist/antd.less'
 import './theme/index.less';
 import './App.css';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -14,6 +13,7 @@ import i18n from './i18n';
 import { Provider } from 'react-redux';
 import history from './router/config';
 import { Router as HashRouter, Switch, Route, Link, Redirect, } from 'react-router-dom';
+
 
 ReactDOM.render(
   <React.StrictMode>

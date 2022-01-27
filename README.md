@@ -3,12 +3,119 @@
 
 npm run dev
 
+### 目录结构
+```
+|-- src
+    |   |-- App.css
+    |   |-- App.js
+    |   |-- App.test.js
+    |   |-- directoryList.md
+    |   |-- index.css
+    |   |-- index.js
+    |   |-- logo.svg
+    |   |-- reportWebVitals.js
+    |   |-- setupTests.js
+    |   |-- api
+    |   |   |-- index.js
+    |   |   |-- request.js
+    |   |   |-- serve.js
+    |   |-- charts
+    |   |   |-- charts.js
+    |   |-- components
+    |   |   |-- baseMsg
+    |   |   |   |-- BaseMsg.jsx
+    |   |   |-- classCom
+    |   |   |   |-- Demo.jsx
+    |   |   |   |-- fuzujian.jsx
+    |   |   |   |-- Tmp.jsx
+    |   |   |   |-- zizujian.jsx
+    |   |   |-- funCom
+    |   |   |   |-- FunComDemo.jsx
+    |   |   |   |-- index.jsx
+    |   |   |-- JiuJia
+    |   |   |   |-- Jiujia.jsx
+    |   |   |-- Log
+    |   |   |   |-- Log.jsx
+    |   |   |-- Setting
+    |   |       |-- Setting.jsx
+    |   |       |-- setting.scss
+    |   |-- config
+    |   |   |-- index.js
+    |   |   |-- map.js
+    |   |-- i18n
+    |   |   |-- index.js
+    |   |   |-- resources.js
+    |   |   |-- locales
+    |   |       |-- en.json
+    |   |       |-- zh.json
+    |   |-- pages
+    |   |   |-- index.scss
+    |   |   |-- InitialPage.jsx
+    |   |   |-- Home
+    |   |   |   |-- Home.jsx
+    |   |   |   |-- home.scss
+    |   |   |   |-- TbCharts.jsx
+    |   |   |   |-- tbChartsOption.js
+    |   |   |-- Login
+    |   |   |   |-- bg.png
+    |   |   |   |-- Login.jsx
+    |   |   |   |-- login.scss
+    |   |   |   |-- loginCfg.js
+    |   |   |   |-- LoginPage.jsx
+    |   |   |-- Music
+    |   |       |-- Music.jsx
+    |   |       |-- music.scss
+    |   |-- redux
+    |   |   |-- action
+    |   |   |   |-- index.js
+    |   |   |   |-- type.js
+    |   |   |-- reducer
+    |   |   |   |-- index.js
+    |   |   |   |-- initialState.js
+    |   |   |-- store
+    |   |       |-- index.js
+    |   |-- router
+    |   |   |-- config.js
+    |   |   |-- index.js
+    |   |-- socket
+    |   |   |-- socketio.js
+    |   |-- theme
+    |   |   |-- index.less
+    |   |   |-- style.less
+    |   |-- utils
+    |-- static
+    |   |-- config.json
+    |   |-- Iconfont
+    |   |   |-- iconfont.css
+    |   |   |-- iconfont.eot
+    |   |   |-- iconfont.json
+    |   |   |-- iconfont.svg
+    |   |   |-- iconfont.ttf
+    |   |   |-- iconfont.woff
+    |   |   |-- iconfont.woff2
+    |   |-- images
+    |       |-- bg.png
+    |-- .babelrc
+    |-- .env
+    |-- .gitignore
+    |-- main.js
+    |-- package-lock.json
+    |-- package.json
+    |-- preload.js
+    |-- README.md
+    |-- server.js
+    |-- test.js
+    |-- webpack.common.js
+    |-- webpack.config.js
+    |-- webpack.dev.js
+    |-- webpack.prod.js
+```
 
 
 
 #### 组件外部使用redux
 - 见utils/socketio.js
-  ```
+  ```javascript
   import store from '../redux/store';
   import { loadData } from '../redux/action'
   import { io } from "socket.io-client";
@@ -20,20 +127,115 @@ npm run dev
   ```
 
 #### 函数组件中使用store数据 react-redux
-- [函数组价使用store数据](https://www.cnblogs.com/cazj/p/15186278.html)
-  ```
+- [函数组价使用store数据](https://www.cnblogs.com/cazj/p/15186278.html) 见（Login.jsx）
+  ```javascript
+    const dispatch = useDispatch();
+    const httpQueryData = bindActionCreators(reduxFunc.httpQueryData, dispatch);
+    const loadData = bindActionCreators(reduxFunc.loadData, dispatch);
     const current = useSelector((state) => {
     return state
     })
 
   console.log(current);
   ```
+- 另外一种方式 直接连接redux 通过props使用 （见初始界面 InitialPage.jsx）
+  ```javascript
+    import React, { useState, useEffect, } from "react";
+    import { connect } from 'react-redux';
+    import { Progress, } from 'antd';
+    import * as reduxFunc from '../redux/action'
+    import { bindActionCreators } from "redux";
+    import { validateToken } from "../api";
+    import './index.scss'
+
+    function InitialPage(props) {
+
+      const [percent, setPercent] = useState(1)
+      const [complete, setComplete] = useState(false)
+
+
+      /*
+      * 是否需要登录 默认需要登录
+      */
+      const [token, setToken] = useState('')
+
+      useEffect(async () => {
+
+        console.log(props)
+        let percent = 1
+        let timer = setInterval(() => {
+          percent += Math.random() * 10
+          if (percent > 100) {
+            percent = 100
+            setComplete(true)
+            clearInterval(timer)
+          }
+          setPercent(percent)
+        }, 20)
+
+
+        let token = await $electron.ipcRenderer.invoke('token');
+        setToken(token);
+
+      }, [])
+
+      useEffect(async () => {
+        // 初始界面进度条加载完成 做的操作
+        if (complete) {
+
+          if (token && token.length) {
+            let { data: { bValid = false, msg = '' } } = await validateToken({ token: token });
+            let userInfo = await $electron.ipcRenderer.invoke('remberLogin')
+            if (bValid) {
+              props.loadData(userInfo, 'userInfo')
+              props.history.replace('/home')
+              $electron.ipcRenderer.send('isLogin', false)
+            } else {
+              props.history.replace('/login')
+              $electron.ipcRenderer.send('isLogin', true)
+            }
+          } else {
+            props.history.replace('/login')
+            $electron.ipcRenderer.send('isLogin', true)
+          }
+        }
+
+      }, [complete, token])
+
+      return (
+        <div className="progress">
+          <img src={`${_static}/images/bg.png`} alt="" />
+          <Progress percent={percent} status="active" showInfo={false} />
+        </div>
+      )
+    }
+
+    //映射到store
+    const mapStateToProps = (state) => {
+      const { socketData = {}, userInfo = {} } = state.staticData;//静态数据
+      const { httpHel = {} } = state.httpData;//http数据
+      return { httpHel, socketData, userInfo }
+    }
+
+    const mapDispatchToProps = (dispatch, props) => {//props 父组件传过来的参数
+      return {
+        //dispatch 内传入action(actionCreator创建者)(就是那个addTodo函数的返回值)  dispatch之后交给reducer处理
+        //对应addTodo reducer处理了之后返回一个新的state更新store
+        //更新完store后自动刷新页面
+        httpQueryData: () => bindActionCreators(reduxFunc.httpQueryData, dispatch),
+        loadData: bindActionCreators(reduxFunc.loadData, dispatch),
+      };
+    }
+
+    export default connect(mapStateToProps, mapDispatchToProps)(InitialPage);
+
+  ```
 #### [心跳检测机制](http://yeyingxian.blog.163.com/blog/static/3447124201441462613517/)
 - 通常做法
 - 客户端发送心跳 ，服务端收到后回复
 - 客户端设施一个定时器，测量发出心跳后多久没后回复就认为连接断开
 - 前端代码
-  ```
+  ```javascript
   // client-side
   socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
@@ -47,7 +249,7 @@ npm run dev
   });
   ```
 - 后端代码
-  ```
+  ```javascript
       /*
       server socket
     */
@@ -109,7 +311,7 @@ npm run dev
 #### electron-builder 可以打包成安装包
 - [Electron-builder打包详解](https://www.jianshu.com/p/4699b825d285?from=timeline)
   package.json中完整配置
-  ```
+  ```json
   "build": {
     "productName":"xxxx",//项目名 这也是生成的exe文件的前缀名
     "appId": "com.leon.xxxxx",//包名
@@ -181,7 +383,7 @@ npm run dev
 ### 知识点
 
 - 禁止用户选择样式
-  ```
+  ```css
    user-select: none;
   ```
 
@@ -250,7 +452,7 @@ npm run dev
   - [electron对应文档地址](https://www.electronjs.org/zh/docs/latest/api/ipc-renderer#ipcrendererinvokechannel-args)
   - 代码中
 
-    ```
+    ```javascript
       //main
       //保存token信息
       ipcMain.on('saveToken', (event, arg) => {
@@ -274,7 +476,7 @@ npm run dev
 - 获取错误请求的响应状态码 status
   - err.response.status
 
-    ```
+    ```javascript
     //请求失败拦截器
     (err) => {
       switch (err.response.status) {
@@ -303,7 +505,7 @@ npm run dev
     }
     ```
 - 翻译i18n 不同模块翻译区分
-  ```
+  ```javascript
   //翻译json
   {
     "login": {
@@ -337,3 +539,122 @@ npm run dev
     ```
 - 验证token是否有效
   - 后端生成的token会在token前面加一个标识给前端 或者前端加标识  ，当前端把token传给后端验证的时候 ， 后端需要把token前面的标识符截取掉 ，然后再验证。
+- 打印目录结构
+  - 安装包  `npm install mddir -D`
+  - 命令行cd到目标目录 直接运行  `mddir` 或者 `npx mddir` 命令
+  - 完成之后会生成一个 `directoryList.md`文件，就是目录结构
+    ```
+    |-- src
+    |-- App.css
+    |-- App.js
+    |-- App.test.js
+    |-- index.css
+    |-- index.js
+    |-- logo.svg
+    |-- reportWebVitals.js
+    |-- setupTests.js
+    |-- api
+    |   |-- index.js
+    |   |-- request.js
+    |   |-- serve.js
+    |-- charts
+    |   |-- charts.js
+    |-- components
+    |   |-- baseMsg
+    |   |   |-- BaseMsg.jsx
+    |   |-- classCom
+    |   |   |-- Demo.jsx
+    |   |   |-- fuzujian.jsx
+    |   |   |-- Tmp.jsx
+    |   |   |-- zizujian.jsx
+    |   |-- funCom
+    |   |   |-- FunComDemo.jsx
+    |   |   |-- index.jsx
+    |   |-- JiuJia
+    |   |   |-- Jiujia.jsx
+    |   |-- Log
+    |   |   |-- Log.jsx
+    |   |-- Setting
+    |       |-- Setting.jsx
+    |       |-- setting.scss
+    |-- config
+    |   |-- index.js
+    |   |-- map.js
+    |-- i18n
+    |   |-- index.js
+    |   |-- resources.js
+    |   |-- locales
+    |       |-- en.json
+    |       |-- zh.json
+    |-- pages
+    |   |-- index.scss
+    |   |-- InitialPage.jsx
+    |   |-- Home
+    |   |   |-- Home.jsx
+    |   |   |-- home.scss
+    |   |   |-- TbCharts.jsx
+    |   |   |-- tbChartsOption.js
+    |   |-- Login
+    |   |   |-- bg.png
+    |   |   |-- Login.jsx
+    |   |   |-- login.scss
+    |   |   |-- loginCfg.js
+    |   |   |-- LoginPage.jsx
+    |   |-- Music
+    |       |-- Music.jsx
+    |       |-- music.scss
+    |-- redux
+    |   |-- action
+    |   |   |-- index.js
+    |   |   |-- type.js
+    |   |-- reducer
+    |   |   |-- index.js
+    |   |   |-- initialState.js
+    |   |-- store
+    |       |-- index.js
+    |-- router
+    |   |-- config.js
+    |   |-- index.js
+    |-- socket
+    |   |-- socketio.js
+    |-- theme
+    |   |-- index.less
+    |   |-- style.less
+    |-- utils
+
+    ```
+
+- **打包之后如果发现找不到模块包，那么要检查一下`package.json` 中的依赖是否是开发依赖和生产环境的依赖（之前打好包打开应用时一直报找不到模块，最后才发现是安装包的时候安装到开发依赖里面了）**
+  - --save || -S 生产依赖
+  - --save-dev || -D 开发依赖，顾名思义就是开发的时候所需的依赖包，打包的时候是不会打包的。
+- 路由跳转 状态保持
+  - 安装 `npm i react-keepalive-router`
+  - [地址及使用方法](https://www.npmjs.com/package/react-keepalive-router/v/1.1.3)
+
+- 公共表单组件封装
+  - 见components/common/FormComp.jsx
+  - [文章地址](https://www.cnblogs.com/tnnyang/p/13497306.html)
+
+- **async...await 错误处理** [https://zhuanlan.zhihu.com/p/85865426](https://zhuanlan.zhihu.com/p/85865426)
+  ```javascript
+  //方案一
+  const handleOk = async () => {
+    try {
+      let values = await curForm.validateFields();
+      let { data } = await updateUser(values);
+    } catch (error) {
+      console.error("validateFields", error)
+    }
+  }
+  //方案二
+  const to = promise => {
+    return promise.then(res => [null, res]).catch(error => [error]);
+  };
+
+  async function fn() {
+  // 每个异步都需要处理
+    let [error, res] = await to(fetchVehicle())
+    console.log("error", error);
+    console.log("res", res);
+  }
+  ```

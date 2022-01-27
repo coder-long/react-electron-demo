@@ -1,14 +1,17 @@
 import React, { useState, useRef } from "react";
 import { HashRouter as Router, Switch, Route, Redirect, Link, NavLink } from "react-router-dom"
+import { KeepaliveRouterSwitch, KeepaliveRoute } from "react-keepalive-router/lib";
 import { Menu, Modal, Row, Col, Button, Card, Avatar } from "antd";
 import history from "./config";
-import { StarOutlined, StarFilled, HeartOutlined, LogoutOutlined, ExclamationCircleOutlined, SettingOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { StarOutlined, StarFilled, HeartOutlined, LogoutOutlined, ExclamationCircleOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import Jiujia from "../components/JiuJia/Jiujia";
 import TbCharts from "../pages/Home/TbCharts";
 import Login from "../pages/Login/Login";
 import Music from "../pages/Music/Music";
 import Setting from "../components/Setting/Setting";
+import UserManager from "../components/UserManager/UserManager";
 import { UploadCom } from "../components/funCom";
+import { useTranslation } from 'react-i18next';
 
 
 function Implementation() {
@@ -86,6 +89,12 @@ const route = [
     name: "setting",
     children: []
   },
+  {
+    path: '/home/user-management',
+    component: UserManager,
+    name: "userManagement",
+    children: []
+  },
 ];
 
 export const menu = [
@@ -117,6 +126,11 @@ export const menu = [
     name: '音乐'
   },
   {
+    path: '/home/user-management',
+    icon: <UserOutlined />,
+    name: '用户管理'
+  },
+  {
     path: '/home/setting',
     icon: <SettingOutlined />,
     name: '设置'
@@ -127,15 +141,19 @@ export const menu = [
 //路由
 export function MyRouter() {
   return (
-    <Switch>
+    <KeepaliveRouterSwitch>
       {
         route.map(item => {
-          return <Route key={item.path} exact={item.exact} path={item.path} component={item.component} />
+          if (item.path === '/' || item.path === '/home/index') {
+            return <Route key={item.path} exact={item.exact} path={item.path} component={item.component} />
+          } else {
+            return <KeepaliveRoute key={item.path} exact={item.exact} path={item.path} component={item.component} />
+          }
         })
       }
       {/* <Route path='/404' component={Notfound} /> */}
       <Redirect from='/home' to="/home/index" />
-    </Switch>
+    </KeepaliveRouterSwitch>
   )
 }
 
@@ -143,31 +161,33 @@ export function MyRouter() {
 
 //导航
 export function HeaderMenu() {
+  const [t] = useTranslation()
   return (
     <Menu
       defaultSelectedKeys={['主页']}
       defaultOpenKeys={['sub1']}
+      style={{ maxHeight: 'calc(100% - 150px)', overflowY: 'auto', overflowX: 'hidden', height: 'calc(100% - 150px)' }}
       mode="inline"
       theme="light">
       {
         menu.map(item => {
+
           return item.children && item.children.length ?
-            <Menu.SubMenu key={item.name} icon={item.icon} title={item.name}>
+            <Menu.SubMenu key={item.name} icon={item.icon} title={t(`menu.${item.name}`)}>
               {
                 item.children.map(subItem => {
                   return <Menu.Item key={subItem.name} icon={subItem.icon}>
-                    <NavLink to={subItem.path}>{subItem.name}</NavLink>
+                    <NavLink to={subItem.path}>{t(`menu.${subItem.name}`)}</NavLink>
                   </Menu.Item>
                 })
               }
             </Menu.SubMenu>
             :
             <Menu.Item key={item.name} icon={item.icon}>
-              <NavLink to={item.path}>{item.name}</NavLink>
+              <NavLink to={item.path}>{t(`menu.${item.name}`)}</NavLink>
             </Menu.Item>
         })
       }
     </Menu>
-
   )
 }

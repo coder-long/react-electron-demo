@@ -15,6 +15,8 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 console.log(path.resolve(__dirname, './static'))
 
+console.log(process.env.NODE_ENV)
+
 // function buildEntriesAndHTML() {
 //   // 用来构建entry
 //   const result = glob.sync('src/index.js');
@@ -183,6 +185,7 @@ module.exports = {
   //外部控制者
   externals: {
     'electron': require("electron"),
+    // 'remote': require("@electron/remote"),
     //react中找不到fs 模块时 添加下面代码
     'fs': "commonjs fs",
   },

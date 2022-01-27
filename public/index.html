@@ -31,7 +31,9 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <script>
-    window._static = require('path').resolve('./static');
+    console.log(require('path').resolve('./static'))
+    console.log(require('path').resolve(__dirname, './static'), process.env.NODE_ENV)
+    window._static = process.env.NODE_ENV === undefined ? require('path').resolve('./static') : require('path').resolve(__dirname, './static');
   </script>
   <div id="root"></div>
   <!--

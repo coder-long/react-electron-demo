@@ -5,7 +5,12 @@ const fs = require('fs')
 const Store = require('electron-store');
 console.log('isDev:', isDev)
 
-const store = new Store()
+const store = new Store();
+//记录状态
+const screenState = {
+  bFullScreen: false,
+
+};
 /*
 Tray 系统托盘 小标
 Menu 菜单
@@ -105,20 +110,18 @@ function createWindow() {
   //   mainWindow = null;
   // });
 
-}
-
-// Electron会在初始化完成并且准备好创建浏览器窗口时调用这个方法
-// 部分 API 在 ready 事件触发后才能使用。
-app.whenReady().then(() => {
-  createWindow();
-
   /**
   * electron 升级 remote删除 解决electron 15 中remote无法使用的办法:
   * https://blog.csdn.net/qq_51634332/article/details/120575284
  */
   require('@electron/remote/main').initialize();
   require('@electron/remote/main').enable(mainWindow.webContents);
+}
 
+// Electron会在初始化完成并且准备好创建浏览器窗口时调用这个方法
+// 部分 API 在 ready 事件触发后才能使用。
+app.whenReady().then(() => {
+  createWindow();
 });
 
 //当所有窗口都被关闭后退出
@@ -158,11 +161,13 @@ ipcMain.on('minSize', (event, arg) => {
 });
 //全屏
 ipcMain.on('win-full-screen', (e, arg) => {
+  screenState.bFullScreen = true;
   mainWindow.maximize()
   console.log(arg)
 });
 //取消全屏
 ipcMain.on('cancel-win-full-screen', (e, arg) => {
+  screenState.bFullScreen = false;
   mainWindow.unmaximize()
   console.log(arg)
 })
@@ -170,8 +175,9 @@ ipcMain.on('cancel-win-full-screen', (e, arg) => {
 ipcMain.on('isLogin', (event, arg) => {
   console.log('isLogin', arg)
   if (Boolean(arg) && arg) {
-    mainWindow.setContentSize(800, 400)
-    mainWindow.setResizable(false)
+    mainWindow.unmaximize();
+    mainWindow.setContentSize(800, 400);
+    mainWindow.setResizable(false);
   } else {
     mainWindow.setContentSize(1200, 800)
     mainWindow.setResizable(true)

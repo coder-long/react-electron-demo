@@ -15,7 +15,7 @@ socket.emit('key', 'val')
 socket.on("connect", () => {
   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
 
-  socket.emit('url', 'http://127.0.0.1:3001')
+  socket.emit('url', window.location.origin)
   store.dispatch(loadData({ socketConnectedState: socket.connected }, 'socketData'));
 
   timer = setInterval(() => {
@@ -25,6 +25,7 @@ socket.on("connect", () => {
 
 socket.on("disconnect", () => {
   console.log('连接断开'); // undefined
+  socket.emit('url', window.location.origin)
   socket.emit('disconnected', "客户端连接状态: disconnect")
   store.dispatch(loadData({ socketConnectedState: socket.connected }, 'socketData'));
 
