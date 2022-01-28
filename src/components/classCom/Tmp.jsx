@@ -38,7 +38,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  httpQueryData: () => bindActionCreators(reduxFunc.httpQueryData, dispatch),
+  httpQueryData: bindActionCreators(reduxFunc.httpQueryData, dispatch),
   loadData: bindActionCreators(reduxFunc.loadData, dispatch),
 })
 

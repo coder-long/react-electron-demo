@@ -195,7 +195,7 @@ const mapDispatchToProps = (dispatch, props) => {//props 父组件传过来的�
     //dispatch 内传入action(actionCreator创建者)(就是那个addTodo函数的返回值)  dispatch之后交给reducer处理
     //对应addTodo reducer处理了之后返回一个新的state更新store
     //更新完store后自动刷新页面
-    httpQueryData: () => bindActionCreators(reduxFunc.httpQueryData, dispatch),
+    httpQueryData: bindActionCreators(reduxFunc.httpQueryData, dispatch),
     loadData: bindActionCreators(reduxFunc.loadData, dispatch),
   };
 }

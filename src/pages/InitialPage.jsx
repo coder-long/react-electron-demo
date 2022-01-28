@@ -44,11 +44,11 @@ function InitialPage(props) {
     if (complete && props.socketData.socketConnectedState) {
 
       if (token && token.length) {
-        let { data: { bValid = false, msg = '' } } = await validateToken({ token: token });
+        let { bValid = false, msg = '' } = await validateToken({ token: token });
         let localUserInfo = await $electron.ipcRenderer.invoke('remberLogin')
         if (bValid) {
-          const res = await getUserInfo({ username: localUserInfo.username || 2222});
-          props.loadData(res.data, 'userInfo')
+          const data = await getUserInfo({ username: localUserInfo.username || 2222 });
+          props.loadData(data, 'userInfo')
           props.history.replace('/home')
           $electron.ipcRenderer.send('isLogin', false)
         } else {
@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch, props) => {//props 父组件传过来的�
     //dispatch 内传入action(actionCreator创建者)(就是那个addTodo函数的返回值)  dispatch之后交给reducer处理
     //对应addTodo reducer处理了之后返回一个新的state更新store
     //更新完store后自动刷新页面
-    httpQueryData: () => bindActionCreators(reduxFunc.httpQueryData, dispatch),
+    httpQueryData: bindActionCreators(reduxFunc.httpQueryData, dispatch),
     loadData: bindActionCreators(reduxFunc.loadData, dispatch),
   };
 }

@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch, props) => {//props 父组件传过来的�
         //对应addTodo reducer处理了之后返回一个新的state更新store
         //更新完store后自动刷新页面
         onClick: (data) => dispatch(addTodo(data)),
-        httpQueryData: () => bindActionCreators(reduxFunc.httpQueryData, dispatch),
+        httpQueryData: bindActionCreators(reduxFunc.httpQueryData, dispatch),
         loadData: bindActionCreators(reduxFunc.loadData, dispatch),
     };
 }

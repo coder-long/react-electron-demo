@@ -1,8 +1,9 @@
 # Getting Started with Create React App
 ### Run App
-
-npm run dev
-
+- npm run dev
+### 项目打包
+- npm run build
+- npm run pkg1
 ### 目录结构
 ```
 |-- src
@@ -232,78 +233,78 @@ npm run dev
   ```
 #### [心跳检测机制](http://yeyingxian.blog.163.com/blog/static/3447124201441462613517/)
 - 通常做法
-- 客户端发送心跳 ，服务端收到后回复
-- 客户端设施一个定时器，测量发出心跳后多久没后回复就认为连接断开
-- 前端代码
-  ```javascript
-  // client-side
-  socket.on("connect", () => {
-    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+  - 客户端发送心跳 ，服务端收到后回复
+  - 客户端设施一个定时器，测量发出心跳后多久没后回复就认为连接断开
+  - 前端代码
+    ```javascript
+      // client-side
+      socket.on("connect", () => {
+        console.log(socket.id); // x8WIv7-mJelg7on_ALbx
 
-    socket.emit('url', 'http://127.0.0.1:3001')
-    store.dispatch(loadData({ socketConnectedState: socket.connected }, 'socketData'));
+        socket.emit('url', 'http://127.0.0.1:3001')
+        store.dispatch(loadData({ socketConnectedState: socket.connected }, 'socketData'));
 
-    timer = setInterval(() => {
-      socket.emit('connected', "客户端连接状态: connect")
-    }, 5000)
-  });
-  ```
-- 后端代码
-  ```javascript
-      /*
-      server socket
-    */
+        timer = setInterval(() => {
+          socket.emit('connected', "客户端连接状态: connect")
+        }, 5000)
+      });
+    ```
+  - 后端代码
+    ```javascript
+        /*
+        server socket
+      */
 
-    const socket_io = require('socket.io');
-    let connectHostArr = [];//连接的地址
-    let Socket = null
+      const socket_io = require('socket.io');
+      let connectHostArr = [];//连接的地址
+      let Socket = null
 
-    module.exports = {
-        initSocketio(server) {
-            //解决socket 跨域 加{cors: true}
-            let io = socket_io(server, {cors: true});
-            io.on('connect', (socket) => {
-                socket.on('url', (url) => {
-                    if (connectHostArr.indexOf(url) === -1) {
-                        connectHostArr.push(url);
-                    }
-                    console.log('当前连接数量:' + connectHostArr.length);
-                })
+      module.exports = {
+          initSocketio(server) {
+              //解决socket 跨域 加{cors: true}
+              let io = socket_io(server, {cors: true});
+              io.on('connect', (socket) => {
+                  socket.on('url', (url) => {
+                      if (connectHostArr.indexOf(url) === -1) {
+                          connectHostArr.push(url);
+                      }
+                      console.log('当前连接数量:' + connectHostArr.length);
+                  })
 
-                console.log('socket连接成功,连接id:', socket.id);
+                  console.log('socket连接成功,连接id:', socket.id);
 
-                Socket = socket
+                  Socket = socket
 
-                socket.on('connected', (state) => {
-                    console.log(state);
-                })
+                  socket.on('connected', (state) => {
+                      console.log(state);
+                  })
 
-                socket.on('click1', function () {
-                    console.log('监听点击事件');
-                    var datas = [1, 2, 3, 4, 5];
-                    socket.emit('click2', {datas: datas});
-                    socket.broadcast.emit('click2', {datas: datas});
-                })
+                  socket.on('click1', function () {
+                      console.log('监听点击事件');
+                      var datas = [1, 2, 3, 4, 5];
+                      socket.emit('click2', {datas: datas});
+                      socket.broadcast.emit('click2', {datas: datas});
+                  })
 
-            })
+              })
 
-            //断开连接
-            io.on('disconnect', (socket) => {
-                console.log(socket)
-                socket.on("disconnected", (state) => {
-                    console.log(state)
-                })
-            })
-        },
-        getSocket() {
-            if (Socket) {
-                return Socket
-            } else {
-                return null
-            }
-        }
-    }
-  ```
+              //断开连接
+              io.on('disconnect', (socket) => {
+                  console.log(socket)
+                  socket.on("disconnected", (state) => {
+                      console.log(state)
+                  })
+              })
+          },
+          getSocket() {
+              if (Socket) {
+                  return Socket
+              } else {
+                  return null
+              }
+          }
+      }
+    ```
 
 #### elelctron-packager
 - 打包只是打包成各个平台下可执行文件，并不是安装包
@@ -311,7 +312,7 @@ npm run dev
 #### electron-builder 可以打包成安装包
 - [Electron-builder打包详解](https://www.jianshu.com/p/4699b825d285?from=timeline)
   package.json中完整配置
-  ```json
+  ```javascript
   "build": {
     "productName":"xxxx",//项目名 这也是生成的exe文件的前缀名
     "appId": "com.leon.xxxxx",//包名
@@ -376,9 +377,7 @@ npm run dev
   ```
 - [打包失败  Application entry file “build/electron.js“](https://blog.csdn.net/weixin_42826294/article/details/113592301)
 
-### 项目打包
-- npm run build
-- npm run pkg1
+
 
 ### 知识点
 

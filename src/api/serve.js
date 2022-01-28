@@ -32,7 +32,7 @@ serve.interceptors.response.use(res => {
 
 
 
-  return res;
+  return res.data;
 }, err => {
   //初始页面不显示提示信息
   if (history.location.pathname === '/initialPage') {

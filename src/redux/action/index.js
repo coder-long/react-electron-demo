@@ -1,7 +1,7 @@
 import * as type from "./type";
 import * as http from "../../api"
 import { message, Modal } from "antd";
-//Action 一般长这样: 
+//Action 一般长这样:
 // { type: 'ADD_TODO', text: 'Use Redux' };
 // { type: 'REMOVE_TODO', id: '42' };
 // { type: 'LOAD_ARTICLE' }
@@ -42,25 +42,25 @@ const reloadData = (data, category) => ({
  * @param params 请求接口参数
  * */
 export const fetchData = ({ funcName, params, stateName }) => dispatch => {
-  stateName = !stateName && (stateName === funcName);
+  !stateName && (stateName = funcName);
   dispatch(requestData(stateName));
   return http[funcName](params).then(res => dispatch(receiveData(res, stateName)))
 };
 
 /**
- * 
+ *
   */
 export const httpQueryData = ({ funcName, params, stateName }) => dispatch => {
-  stateName = !stateName && (stateName === funcName);
+  !stateName && (stateName = funcName);
   dispatch(requestData(stateName));
   return http[funcName](params).then(res => dispatch(receiveData(res, stateName)))
 }
 
-/** 
- * 
+/**
+ *
  * */
 export const httpAddData = ({ funcName, params, stateName }) => dispatch => {
-  stateName = !stateName && (stateName === funcName);
+  !stateName && (stateName = funcName);
   dispatch(requestData(stateName));
   return http[funcName](params).then(res => {
     if (res.success) {
@@ -77,7 +77,7 @@ export const httpAddData = ({ funcName, params, stateName }) => dispatch => {
 
 
 export const httpEditData = ({ funcName, params, stateName }) => dispatch => {
-  stateName = !stateName && (stateName === funcName);
+  !stateName && (stateName = funcName);
   dispatch(requestData(stateName));
   return http[funcName](params).then(res => {
     if (res.success) {
@@ -93,7 +93,7 @@ export const httpEditData = ({ funcName, params, stateName }) => dispatch => {
 };
 
 /**
- * @description 同步更新数据，并将数据用action进行发送处理 
+ * @description 同步更新数据，并将数据用action进行发送处理
  * @param {*} data newstate 新的状态数据
  * @param {*} category state名称
  */

@@ -30,7 +30,7 @@ function Login(props) {
     setLodaingBtn(true)
     switch (type) {
       case "login":
-        const { data: { msg = '', token = '', userInfo = {}, code } } = await LoginRequest({ userInfo: { ...values } })
+        const { msg = '', token = '', userInfo = {}, code } = await LoginRequest({ userInfo: { ...values } })
         if (code === 0) {
           $electron.ipcRenderer.send('loginRember', values.remember ? values : { username: values.username, remember: false, password: '' });
           loadData(token, 'token');
@@ -46,7 +46,7 @@ function Login(props) {
         break;
       case "register":
         {
-          const { data: { data, code, msg } } = await RegisterRequest({ userInfo: { ...values } });
+          const { data, code, msg } = await RegisterRequest({ userInfo: { ...values } });
           if (code === 2) {
             message.error(msg)
           } else {

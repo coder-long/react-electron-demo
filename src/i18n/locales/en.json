@@ -18,7 +18,8 @@
     "地区": "Address",
     "注册时间": "Register Time",
     "更新时间": "Update Time",
-    "操作": "Operation"
+    "操作": "Operation",
+    "序号": "S/N"
   },
   "menu": {
     "主页": "Home",
