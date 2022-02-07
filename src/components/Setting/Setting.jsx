@@ -1,9 +1,8 @@
-import React, { useState, useRef, Fragment, } from "react";
+import React, { useState, useRef, useEffect, } from "react";
 import { Button, Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import history from "../../router/config";
 import './setting.scss'
-
 
 
 function Setting() {
@@ -47,6 +46,8 @@ function Setting() {
       <Button onClick={showConfirm}>退出应用</Button>
       <br />
       <Button onClick={toggleUser}>切换账号</Button>
+      <br />
+      <audio src="https://vod.ruotongmusic.com/sv/495943fd-17d363e02a1/495943fd-17d363e02a1.wav" controls="controls"></audio>
     </div>
   )
 }

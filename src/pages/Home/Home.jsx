@@ -23,6 +23,7 @@ class Home extends Component {
     collapsed: true,
     visible: false,
     isFullScreen: false,
+    contentMargin: '24px 16px',
   };
 
   homeRef = createRef()
@@ -78,10 +79,20 @@ class Home extends Component {
     if (Object.values(this.props.userInfo).length) {
 
     }
+
+    console.log(this.refs)
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    // console.log(prevProps, prevState)
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      if (this.props.location.pathname === "/home/music") {
+        this.setState({ contentMargin: 0 })
+      } else {
+        this.setState({ contentMargin: '24px 16px' })
+      }
+    }
+
+    // console.log(prevProps, this.props)
     if (this.props.socketData.socketConnectedState !== prevProps.socketData.socketConnectedState) {
       if (this.props.socketData.socketConnectedState) {
         message.success('服务已连接。')
@@ -135,8 +146,8 @@ class Home extends Component {
 
     return (
       <Layout className='home' style={{ height: '100vh' }}>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed} theme='light' className='silder-left'>
-          <div className="logo" style={{ WebkitAppRegion: "drag" }}>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed} theme='light' style={{ WebkitAppRegion: "drag" }}>
+          <div className="logo" style={{ WebkitAppRegion: "drag" }} >
             <Image width={64} src={`${_static}/images/logo4.png`} preview={false} />
           </div>
           {/* 路由导航 */}
@@ -168,7 +179,7 @@ class Home extends Component {
           <Content
             className="site-layout-background"
             style={{
-              margin: '24px 16px',
+              margin: this.state.contentMargin,
               padding: 24,
               minHeight: 280,
             }}

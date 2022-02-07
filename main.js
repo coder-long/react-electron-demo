@@ -57,8 +57,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,//800
     height: 400,//400
-    minHeight: 400,
-    minWidth: 300,
+    minHeight: 600,
+    minWidth: 1000,
     center: true,
     safeDialogs: true,//对话框保护
     safeDialogsMessage: "是否关闭应用！",

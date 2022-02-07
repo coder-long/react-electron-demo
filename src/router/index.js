@@ -100,7 +100,7 @@ const route = [
 export const menu = [
   {
     path: '/home/index',
-    icon: <HeartOutlined />,
+    icon: <span className="iconfont">&#xe63a;</span>,
     name: '主页'
   },
   {
@@ -117,12 +117,12 @@ export const menu = [
   },
   {
     path: '/home/LOL',
-    icon: <HeartOutlined />,
+    icon: <span className="iconfont">&#xe622;</span>,
     name: '英雄联盟'
   },
   {
     path: '/home/music',
-    icon: <HeartOutlined />,
+    icon: <span className="iconfont">&#xe602;</span>,
     name: '音乐'
   },
   {
@@ -166,7 +166,7 @@ export function HeaderMenu() {
     <Menu
       defaultSelectedKeys={['主页']}
       defaultOpenKeys={['sub1']}
-      style={{ maxHeight: 'calc(100% - 150px)', overflowY: 'auto', overflowX: 'hidden', height: 'calc(100% - 150px)' }}
+      style={{ maxHeight: 'calc(100% - 150px)', overflowY: 'auto', overflowX: 'hidden', height: 'calc(100% - 150px)', WebkitAppRegion: "no-drag", }}
       mode="inline"
       theme="light">
       {

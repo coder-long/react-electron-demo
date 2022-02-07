@@ -16,13 +16,14 @@ import { Router as HashRouter, Switch, Route, Link, Redirect, } from 'react-rout
 
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <HashRouter history={history}>
         <App />
       </HashRouter>
     </Provider>
-  </React.StrictMode>,
+  // {/* </React.StrictMode> */}
+  ,
   document.getElementById('root')
 );
 

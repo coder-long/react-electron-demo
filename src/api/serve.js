@@ -8,17 +8,11 @@ let serve = axios.create({
   timeout: 1000 * 60 * 2
 })
 
-let token
-
-(async () => {
-  token = await $electron.ipcRenderer.invoke('token')
-})()
-
 
 //请求拦截器 添加token等信息
 serve.interceptors.request.use(async config => {
 
-  config.headers.authorization = token; //请求头加上token
+  config.headers.authorization = await $electron.ipcRenderer.invoke('token'); //请求头加上token
 
   return config
 }, err => {

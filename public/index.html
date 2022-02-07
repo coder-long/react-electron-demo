@@ -33,7 +33,8 @@
   <script>
     console.log(require('path').resolve('./static'))
     console.log(require('path').resolve(__dirname, './static'), process.env.NODE_ENV)
-    window._static = process.env.NODE_ENV === undefined ? require('path').resolve('./static') : require('path').resolve(__dirname, './static');
+    window._static = process.env.NODE_ENV === undefined ? require('path').resolve('./static').replace('//', '\\\\').replace('\\\\', '////') : require('path').resolve(__dirname, './static').replace('\\', '//');
+    console.log(_static)
   </script>
   <div id="root"></div>
   <!--
