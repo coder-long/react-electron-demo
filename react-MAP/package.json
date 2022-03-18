@@ -1,0 +1,57 @@
+{
+  "name": "react-map",
+  "version": "0.1.0",
+  "homepage": "'src/page1.index.js",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "css-loader": "^6.7.1",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.49.9",
+    "sass-loader": "^12.6.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start0": "react-scripts start",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --mode=development ",
+    "build": "cross-env NODE_ENV=production webpack --mode production ",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.7",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
+    "webpack-cli": "^4.9.2"
+  }
+}

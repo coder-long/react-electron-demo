@@ -39,9 +39,9 @@
     "start": "electron .",
     "pkg": "electron-builder --win --x64",
     "pkg1": "electron-packager . app --out pkg --arch=x64 --overwrite",
-    "render": "webpack-dev-server --config webpack.dev.js",
+    "render": "webpack-dev-server --config ./config/webpack.dev.js",
     "dev": "concurrently \"wait-on http://localhost:3001 && npm run start \"  \"npm run render\"",
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config ./config/webpack.prod.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

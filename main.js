@@ -51,7 +51,7 @@ function createTray() {
 */
 
 //创建主进程
-function createWindow() {
+function createWindow(windowUrl = 'http://localhost:3001/main_window') {
 
   // 创建浏览器窗口
   mainWindow = new BrowserWindow({
@@ -85,7 +85,7 @@ function createWindow() {
 
 
   const productURL = path.resolve(__dirname, './dist/index.html');
-  const urlLocation = isDev ? 'http://localhost:3001' : productURL
+  const urlLocation = isDev ? windowUrl : productURL
   mainWindow.loadURL(urlLocation);
 
   mainWindow.once('ready-to-show', () => {
@@ -144,6 +144,10 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+//新窗口渲染进程
+ipcMain.on('openPage', (e, arg) => {
+  createWindow('http://localhost:3001/page1');
 });
 //退出应用
 ipcMain.on('quit', (e, arg) => {
