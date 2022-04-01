@@ -63,14 +63,10 @@ function InitialPage(props) {
 
   }, [complete, token, props.socketData.socketConnectedState])
 
-  const handleOpenNewPage = () => {
-    $electron.ipcRenderer.send('openPage')
-  }
 
   return (
     <div className="progress">
-      <img src={`${_static}/images/bg.png`} alt="" />
-      <Button onClick={handleOpenNewPage}>open newPage</Button>
+      <img src={`${_static}/images/bg.png`} alt="" style={{ width: '100%', height: '100%' }} />
       <Progress percent={percent} status="active" showInfo={false} />
     </div>
   )

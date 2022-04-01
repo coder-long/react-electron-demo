@@ -57,8 +57,8 @@ function createWindow(windowUrl = 'http://localhost:3001/main_window') {
   mainWindow = new BrowserWindow({
     width: 800,//800
     height: 400,//400
-    minHeight: 600,
-    minWidth: 1000,
+    // minHeight: 600,
+    // minWidth: 1000,
     center: true,
     safeDialogs: true,//对话框保护
     safeDialogsMessage: "是否关闭应用！",
@@ -122,6 +122,8 @@ function createWindow(windowUrl = 'http://localhost:3001/main_window') {
 // 部分 API 在 ready 事件触发后才能使用。
 app.whenReady().then(() => {
   createWindow();
+
+  console.log(BrowserWindow.getAllWindows());
 });
 
 //当所有窗口都被关闭后退出
@@ -136,6 +138,8 @@ app.whenReady().then(() => {
 ipcMain.on('window-close', () => {
   mainWindow.hide()
 })
+
+
 
 
 app.on("activate", () => {
@@ -179,6 +183,7 @@ ipcMain.on('cancel-win-full-screen', (e, arg) => {
 ipcMain.on('isLogin', (event, arg) => {
   console.log('isLogin', arg)
   if (Boolean(arg) && arg) {
+    console.log('监听登录变化', arg)
     mainWindow.unmaximize();
     mainWindow.setContentSize(800, 400);
     mainWindow.setResizable(false);
