@@ -657,3 +657,5 @@
     console.log("res", res);
   }
   ```
+  #### react-router-dom 升级之后（v6），外部上下文使用路由
+  [https://reactrouter.com/docs/en/v6/api#unstable_historyrouter](https://reactrouter.com/docs/en/v6/api#unstable_historyrouter)
